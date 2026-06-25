@@ -96,10 +96,54 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "hero-float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+        "hero-pulse-number": {
+          "0%, 100%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 24px rgba(255, 45, 117, 0.35), 0 0 48px rgba(139, 92, 246, 0.2)",
+          },
+          "50%": {
+            transform: "scale(1.06)",
+            boxShadow: "0 0 36px rgba(255, 45, 117, 0.55), 0 0 64px rgba(139, 92, 246, 0.35)",
+          },
+        },
+        "hero-glow-border": {
+          "0%, 100%": { opacity: "0.6" },
+          "50%": { opacity: "1" },
+        },
+        "particle-drift": {
+          "0%": { transform: "translate(0, 0)", opacity: "0.15" },
+          "50%": { transform: "translate(12px, -24px)", opacity: "0.55" },
+          "100%": { transform: "translate(-8px, -48px)", opacity: "0.1" },
+        },
+        "bingo-ball-float": {
+          "0%, 100%": { transform: "translateY(0px) rotate(0deg)" },
+          "50%": { transform: "translateY(-20px) rotate(8deg)" },
+        },
+        "confetti-fall": {
+          "0%": { transform: "translateY(-10px) rotate(0deg)", opacity: "0" },
+          "10%": { opacity: "0.7" },
+          "90%": { opacity: "0.5" },
+          "100%": { transform: "translateY(80px) rotate(180deg)", opacity: "0" },
+        },
+        "hero-gradient-shift": {
+          "0%, 100%": { filter: "hue-rotate(0deg) brightness(1)" },
+          "50%": { filter: "hue-rotate(8deg) brightness(1.08)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "hero-float": "hero-float 7s ease-in-out infinite",
+        "hero-pulse-number": "hero-pulse-number 2.4s ease-in-out infinite",
+        "hero-glow-border": "hero-glow-border 3s ease-in-out infinite",
+        "particle-drift": "particle-drift 10s ease-in-out infinite",
+        "bingo-ball-float": "bingo-ball-float 6s ease-in-out infinite",
+        "confetti-fall": "confetti-fall 5s ease-in-out infinite",
+        "hero-gradient-shift": "hero-gradient-shift 12s ease-in-out infinite",
       },
     },
   },
