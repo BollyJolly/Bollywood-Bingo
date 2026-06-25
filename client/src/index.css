@@ -442,7 +442,31 @@
   .ticket-callable,
   .ticket-marked,
   .avatar-glow,
-  .confetti-bit {
+  .confetti-bit,
+  .hero-gradient-animate {
     animation: none;
   }
+}
+
+.hero-gradient-animate {
+  animation: hero-gradient-shift 12s ease-in-out infinite;
+}
+
+.hero-swiper .swiper-slide {
+  height: auto;
+}
+
+.hero-pagination .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.25rem !important;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.28);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.hero-pagination .swiper-pagination-bullet-active {
+  width: 1.75rem;
+  background: #ff2d75;
 }
