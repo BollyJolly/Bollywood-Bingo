@@ -13,9 +13,9 @@ export function HeroFeatures() {
       {FEATURES.map((feature) => (
         <li
           key={feature}
-          className="flex items-center gap-2.5 text-sm text-[#B9B9C5]"
+          className="flex items-center gap-2.5 text-sm text-bb-muted"
         >
-          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#34D399]/15 text-[#34D399]">
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-bb-success/10 text-bb-success">
             <Check className="h-3 w-3" strokeWidth={3} />
           </span>
           {feature}

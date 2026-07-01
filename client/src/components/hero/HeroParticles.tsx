@@ -1,11 +1,11 @@
-const PARTICLES = Array.from({ length: 18 }, (_, index) => ({
+const PARTICLES = Array.from({ length: 14 }, (_, index) => ({
   id: index,
   left: `${8 + ((index * 17) % 84)}%`,
   top: `${12 + ((index * 23) % 76)}%`,
-  size: index % 3 === 0 ? 4 : index % 3 === 1 ? 3 : 2,
+  size: index % 3 === 0 ? 120 : index % 3 === 1 ? 80 : 60,
   delay: `${(index % 6) * 1.2}s`,
-  duration: `${8 + (index % 5) * 1.5}s`,
-  color: index % 3 === 0 ? "#FF2D75" : index % 3 === 1 ? "#FFC83D" : "#8B5CF6",
+  duration: `${10 + (index % 5) * 1.5}s`,
+  color: index % 2 === 0 ? "rgba(255,77,126,0.06)" : "rgba(255,77,126,0.04)",
 }));
 
 export function HeroParticles() {
@@ -14,7 +14,7 @@ export function HeroParticles() {
       {PARTICLES.map((particle) => (
         <span
           key={particle.id}
-          className="absolute rounded-full opacity-40 animate-particle-drift"
+          className="absolute rounded-full blur-3xl animate-particle-drift"
           style={{
             left: particle.left,
             top: particle.top,

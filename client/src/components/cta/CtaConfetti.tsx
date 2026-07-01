@@ -1,11 +1,11 @@
-const COLORS = ["#FF2D75", "#FFC83D", "#8B5CF6", "#34D399", "#F97316"];
+const COLORS = ["#FF4D7E", "#E8B931", "#FF4D7E", "#22C55E"];
 
-const CONFETTI = Array.from({ length: 24 }, (_, index) => ({
+const CONFETTI = Array.from({ length: 16 }, (_, index) => ({
   id: index,
-  left: `${(index * 4.3) % 100}%`,
-  top: `${(index * 7) % 60}%`,
-  width: index % 2 === 0 ? 6 : 4,
-  height: index % 2 === 0 ? 4 : 6,
+  left: `${(index * 6.5) % 100}%`,
+  top: `${(index * 9) % 60}%`,
+  width: index % 2 === 0 ? 5 : 3,
+  height: index % 2 === 0 ? 3 : 5,
   color: COLORS[index % COLORS.length],
   delay: `${(index % 8) * 0.6}s`,
   duration: `${4 + (index % 5) * 0.8}s`,
@@ -17,7 +17,7 @@ export function CtaConfetti() {
       {CONFETTI.map((piece) => (
         <span
           key={piece.id}
-          className="absolute animate-confetti-fall rounded-sm"
+          className="absolute animate-confetti-fall rounded-sm opacity-30"
           style={{
             left: piece.left,
             top: piece.top,
@@ -26,7 +26,6 @@ export function CtaConfetti() {
             backgroundColor: piece.color,
             animationDelay: piece.delay,
             animationDuration: piece.duration,
-            opacity: 0.5,
           }}
         />
       ))}

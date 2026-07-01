@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 type NavbarNavLinkProps = {
   label: string;
   href: string;
@@ -22,16 +24,14 @@ export function NavbarNavLink({ label, href, isActive, onClick, testId }: Navbar
       href={href}
       onClick={handleClick}
       data-testid={testId}
-      className={`group relative px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-        isActive ? "text-[#FF2D75]" : "text-[#B9B9C5] hover:text-[#FF2D75]"
-      }`}
+      className={cn(
+        "rounded-lg px-3 py-2 text-[13px] font-medium transition-colors duration-150",
+        isActive
+          ? "bg-bb-primary/10 text-bb-primary"
+          : "text-bb-muted hover:bg-bb-surface hover:text-bb-text",
+      )}
     >
       {label}
-      <span
-        className={`absolute bottom-0 left-3 right-3 h-0.5 rounded-full bg-[#FF2D75] transition-all duration-300 ${
-          isActive ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-100 group-hover:opacity-100"
-        }`}
-      />
     </a>
   );
 }

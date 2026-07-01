@@ -55,7 +55,7 @@ function Home() {
   const visibleCallerLine = callerLineFor(lastCall);
 
   return (
-    <main className="min-h-screen bg-white text-foreground">
+    <main className="min-h-screen bg-bb-bg text-bb-text">
       <Navbar />
 
       <HeroSection

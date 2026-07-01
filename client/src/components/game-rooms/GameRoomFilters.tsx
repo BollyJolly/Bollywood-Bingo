@@ -32,8 +32,8 @@ export function GameRoomFilters({
               data-testid={`filter-room-${filter.id}`}
               className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-[#1B1B25] text-white"
-                  : "border border-[#E5E7EB] bg-white text-[#4B5563] hover:border-[#D1D5DB]"
+                  ? "bg-bb-primary text-white shadow-sm"
+                  : "border border-bb-border bg-bb-elevated text-bb-muted hover:border-bb-primary/20 hover:bg-bb-surface"
               }`}
             >
               {filter.dot && (
@@ -51,7 +51,7 @@ export function GameRoomFilters({
         <button
           type="button"
           aria-label="More filters"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#E5E7EB] bg-white text-[#6B7280] hover:border-[#D1D5DB]"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-bb-border bg-bb-elevated text-bb-muted hover:border-[#D1D5DB]"
         >
           <ChevronDown className="h-4 w-4" />
         </button>
@@ -68,8 +68,8 @@ export function GameRoomFilters({
               data-testid={`filter-category-${filter.id}`}
               className={`rounded-full px-3.5 py-2 text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-[#FF2D75]/10 text-[#FF2D75] ring-1 ring-[#FF2D75]/30"
-                  : "border border-[#E5E7EB] bg-white text-[#6B7280] hover:border-[#D1D5DB]"
+                  ? "bg-bb-primary/10 text-bb-primary ring-1 ring-bb-primary/20"
+                  : "border border-bb-border bg-bb-elevated text-bb-muted hover:border-bb-primary/20 hover:bg-bb-surface"
               }`}
             >
               {filter.label}
@@ -79,14 +79,14 @@ export function GameRoomFilters({
       </div>
 
       <div className="relative w-full lg:max-w-[280px] lg:shrink-0">
-        <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9CA3AF]" />
+        <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-bb-muted" />
         <input
           type="search"
           value={searchQuery}
           onChange={(event) => onSearchChange(event.target.value)}
           placeholder="Search room name..."
           data-testid="input-search-rooms"
-          className="w-full rounded-full border border-[#E5E7EB] bg-white py-2.5 pl-10 pr-4 text-sm text-[#1B1B25] outline-none transition-colors placeholder:text-[#9CA3AF] focus:border-[#FF2D75] focus:ring-2 focus:ring-[#FF2D75]/10"
+          className="w-full rounded-full border border-bb-border bg-bb-elevated py-2.5 pl-10 pr-4 text-sm text-bb-text outline-none transition-colors placeholder:text-bb-muted focus:border-bb-primary focus:ring-2 focus:ring-bb-primary/10"
         />
       </div>
     </div>

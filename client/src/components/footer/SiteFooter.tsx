@@ -13,7 +13,7 @@ function FooterLinkGroup({
 }) {
   return (
     <div>
-      <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-white">
+      <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-bb-text">
         {title}
       </h3>
       <ul className="mt-4 space-y-2.5">
@@ -22,7 +22,7 @@ function FooterLinkGroup({
             <a
               href={link.href}
               data-testid={`${testIdPrefix}-${link.label.toLowerCase().replace(/\s/g, "-")}`}
-              className="text-sm text-[#B9B9C5] transition-colors hover:text-[#FF2D75]"
+              className="text-sm text-bb-muted transition-colors hover:text-bb-primary"
             >
               {link.label}
             </a>
@@ -36,7 +36,7 @@ function FooterLinkGroup({
 export function SiteFooter() {
   return (
     <footer
-      className="border-t border-white/10 bg-[#0D0B16] px-5 py-14 sm:px-8 lg:px-12"
+      className="border-t border-bb-border bg-bb-bg px-5 py-14 sm:px-8 lg:px-12"
       data-testid="site-footer"
     >
       <div className="mx-auto max-w-[1400px]">
@@ -44,9 +44,9 @@ export function SiteFooter() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3">
               <FooterLogo />
-              <span className="text-lg font-black text-white">BollyBingo</span>
+              <span className="text-lg font-black text-bb-text">BollyBingo</span>
             </div>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#B9B9C5]">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-bb-muted">
               {footerTagline}
             </p>
           </div>
@@ -55,7 +55,7 @@ export function SiteFooter() {
           <FooterLinkGroup title="Legal" links={legalLinks} testIdPrefix="footer-legal" />
 
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-white">
+            <h3 className="text-xs font-bold uppercase tracking-[0.18em] text-bb-text">
               Social
             </h3>
             <div className="mt-4 flex flex-wrap gap-2">
@@ -71,8 +71,8 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-6 text-center">
-          <p className="text-sm text-[#7D7D8E]">
+        <div className="mt-12 border-t border-bb-border pt-6 text-center">
+          <p className="text-sm text-bb-muted">
             © 2026 BollyBingo. All rights reserved.
           </p>
         </div>

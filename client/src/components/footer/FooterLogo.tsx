@@ -3,7 +3,7 @@ export function FooterLogo() {
     <svg
       aria-label="BollyBingo logo"
       viewBox="0 0 48 48"
-      className="h-9 w-9 text-[#FF2D75]"
+      className="h-9 w-9 text-bb-primary"
       fill="none"
     >
       <path d="M10 15.5 24 7l14 8.5v17L24 41l-14-8.5v-17Z" stroke="currentColor" strokeWidth="2.5" />

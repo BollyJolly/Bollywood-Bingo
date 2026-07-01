@@ -20,7 +20,7 @@ export function HeroSlide({ slide, isActive, liveCard }: HeroSlideProps) {
   };
 
   return (
-    <div className="relative flex h-full min-h-[90vh] items-center overflow-hidden">
+    <div className="relative flex h-full min-h-[90vh] items-center overflow-hidden bg-bb-bg">
       <div
         className="hero-gradient-animate absolute inset-0"
         style={{ background: slide.background }}
@@ -40,26 +40,26 @@ export function HeroSlide({ slide, isActive, liveCard }: HeroSlideProps) {
             animate={isActive ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.55, ease: "easeOut" }}
           >
-            <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-[#B9B9C5] backdrop-blur-sm">
+            <span className="inline-flex items-center rounded-full border border-bb-border bg-bb-elevated px-4 py-2 text-sm font-medium text-bb-muted shadow-sm">
               {slide.badge}
             </span>
 
-            <h1 className="mt-6 text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
+            <h1 className="mt-6 text-4xl font-black leading-[1.08] tracking-tight text-bb-text sm:text-5xl lg:text-[3.25rem]">
               {slide.headingLine1}
               <br />
-              <span className="bg-gradient-to-r from-[#FF2D75] via-[#FFC83D] to-[#8B5CF6] bg-clip-text text-transparent">
+              <span className="text-bb-primary">
                 {slide.headingLine2}
               </span>
             </h1>
 
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-[#B9B9C5] sm:text-lg">
+            <p className="mt-5 max-w-lg text-base leading-relaxed text-bb-muted sm:text-lg">
               {slide.description}
             </p>
 
             {slide.bullets && (
               <ul className="mt-4 space-y-2">
                 {slide.bullets.map((bullet) => (
-                  <li key={bullet} className="text-sm font-semibold text-[#FFC83D]">
+                  <li key={bullet} className="text-sm font-semibold text-bb-gold">
                     {bullet}
                   </li>
                 ))}
@@ -82,8 +82,8 @@ export function HeroSlide({ slide, isActive, liveCard }: HeroSlideProps) {
                   data-testid={`hero-button-${slide.id}-${button.label.toLowerCase().replace(/\s/g, "-")}`}
                   className={
                     button.variant === "primary"
-                      ? "inline-flex min-h-12 items-center rounded-xl bg-[#FF2D75] px-7 text-sm font-bold text-white shadow-lg shadow-[#FF2D75]/25 transition-colors hover:bg-[#E91E63]"
-                      : "inline-flex min-h-12 items-center rounded-xl border border-white/30 bg-transparent px-7 text-sm font-bold text-white backdrop-blur-sm transition-colors hover:border-white/50 hover:bg-white/5"
+                      ? "bb-btn-primary min-h-12 px-7 text-sm"
+                      : "bb-btn-ghost min-h-12 px-7 text-sm"
                   }
                 >
                   {button.label}

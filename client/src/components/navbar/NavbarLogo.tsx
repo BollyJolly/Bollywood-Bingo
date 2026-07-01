@@ -2,7 +2,7 @@ export function NavbarLogo() {
   return (
     <a
       href="#"
-      className="group flex items-center gap-2.5"
+      className="group flex shrink-0 items-center gap-2.5"
       data-testid="navbar-logo"
       onClick={(event) => {
         event.preventDefault();
@@ -10,14 +10,13 @@ export function NavbarLogo() {
       }}
     >
       <div
-        className="relative flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#FFC83D] to-[#F59E0B] shadow-[0_0_20px_rgba(255,200,61,0.35)] transition-transform duration-300 group-hover:scale-105"
+        className="flex h-8 w-8 items-center justify-center rounded-lg bg-bb-primary shadow-sm transition-transform duration-200 group-hover:scale-[1.02]"
         aria-hidden="true"
       >
-        <span className="text-sm font-black text-[#0D0B16]">77</span>
+        <span className="text-sm font-bold text-white">B</span>
       </div>
-      <span className="text-lg font-bold tracking-tight">
-        <span className="text-white">Bolly</span>
-        <span className="text-[#FF2D75]">Bingo</span>
+      <span className="text-[17px] font-semibold tracking-tight text-bb-text">
+        Bolly<span className="text-bb-primary">Bingo</span>
       </span>
     </a>
   );

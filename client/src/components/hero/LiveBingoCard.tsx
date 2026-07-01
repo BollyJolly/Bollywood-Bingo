@@ -38,50 +38,45 @@ export function LiveBingoCard({
       className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none"
     >
       <div
-        className="pointer-events-none absolute -inset-8 rounded-[2rem] bg-[radial-gradient(circle,rgba(255,45,117,0.18)_0%,rgba(139,92,246,0.12)_45%,transparent_70%)] blur-2xl"
+        className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle,rgba(255,77,126,0.08)_0%,transparent_70%)] blur-2xl"
         aria-hidden="true"
       />
 
       <div className="animate-hero-float relative">
-        <div
-          className="absolute -inset-[1px] animate-hero-glow-border rounded-[20px] bg-gradient-to-br from-[#FF2D75] via-[#8B5CF6] to-[#FFC83D] opacity-80"
-          aria-hidden="true"
-        />
-
-        <div className="relative overflow-hidden rounded-[20px] border border-white/10 bg-[#0D0B16]/70 p-5 shadow-2xl shadow-[#FF2D75]/10 backdrop-blur-xl sm:p-6">
+        <div className="relative overflow-hidden rounded-[20px] border border-bb-border bg-bb-elevated p-5 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_8px_32px_rgba(0,0,0,0.06)] sm:p-6">
           <div className="flex items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#FF2D75]/30 bg-[#FF2D75]/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#FF2D75]">
+            <div className="inline-flex items-center gap-2 rounded-full border border-bb-primary/20 bg-bb-primary/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-bb-primary">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF2D75] opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF2D75]" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-bb-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-bb-primary" />
               </span>
               Live Now
             </div>
-            <div className="flex items-center gap-1.5 text-xs text-[#B9B9C5]">
-              <Users className="h-3.5 w-3.5 text-[#8B5CF6]" />
+            <div className="flex items-center gap-1.5 text-xs text-bb-muted">
+              <Users className="h-3.5 w-3.5 text-bb-primary" />
               {playerCount}/{maxPlayers}
             </div>
           </div>
 
           <div className="mt-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#B9B9C5]">Room</p>
-            <p className="mt-1 text-xl font-black text-white">{roomTitle}</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Room</p>
+            <p className="mt-1 text-xl font-black text-bb-text">{roomTitle}</p>
           </div>
 
-          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-white/10">
+          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-bb-surface">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-[#FF2D75] to-[#8B5CF6] transition-all duration-500"
+              className="h-full rounded-full bg-bb-primary transition-all duration-500"
               style={{ width: `${fillPercent}%` }}
             />
           </div>
 
           <div className="mt-6 grid grid-cols-[1fr_auto] items-center gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#B9B9C5]">Current Number</p>
-              <p className="mt-2 text-sm text-[#FFC83D]">Players seated · {playerCount}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Current Number</p>
+              <p className="mt-2 text-sm text-bb-gold">Players seated · {playerCount}</p>
             </div>
             <div
-              className="flex h-24 w-24 animate-hero-pulse-number items-center justify-center rounded-[18px] bg-gradient-to-br from-[#FF2D75] to-[#8B5CF6] text-4xl font-black text-white"
+              className="flex h-24 w-24 animate-hero-pulse-number items-center justify-center rounded-[18px] bg-bb-primary text-4xl font-black text-white shadow-[0_4px_20px_rgba(255,77,126,0.25)]"
               data-testid="hero-last-call"
             >
               {currentNumber}
@@ -89,15 +84,15 @@ export function LiveBingoCard({
           </div>
 
           <div className="mt-6">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[#B9B9C5]">Last 5 Numbers</p>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Last 5 Numbers</p>
             <div className="grid grid-cols-5 gap-2">
               {recentNumbers.slice(0, 5).map((number, index) => (
                 <span
                   key={`hero-${number}-${index}`}
                   className={`rounded-xl py-2 text-center text-sm font-bold ${
                     index === 0
-                      ? "border border-[#FF2D75]/40 bg-[#FF2D75]/15 text-white"
-                      : "border border-white/10 bg-white/5 text-[#B9B9C5]"
+                      ? "border border-bb-primary/25 bg-bb-primary/5 text-bb-primary"
+                      : "border border-bb-border bg-bb-surface text-bb-muted"
                   }`}
                 >
                   {number}
@@ -106,7 +101,7 @@ export function LiveBingoCard({
             </div>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3">
+          <div className="mt-5 overflow-hidden rounded-2xl border border-bb-border bg-bb-surface p-3">
             <div className="grid grid-cols-9 gap-1">
               {MINI_GRID.flat().map((cell, index) => {
                 const isCalled = cell !== null && CALLED_NUMBERS.has(cell);
@@ -116,12 +111,12 @@ export function LiveBingoCard({
                     key={`cell-${index}`}
                     className={`flex aspect-square items-center justify-center rounded-md text-[9px] font-bold sm:text-[10px] ${
                       isCurrent
-                        ? "bg-[#FF2D75] text-white shadow-md shadow-[#FF2D75]/40"
+                        ? "bg-bb-primary text-white shadow-sm"
                         : isCalled
-                          ? "bg-[#8B5CF6]/30 text-white"
+                          ? "bg-bb-primary/10 text-bb-primary"
                           : cell === null
                             ? "bg-transparent"
-                            : "bg-white/5 text-[#B9B9C5]"
+                            : "border border-bb-border bg-bb-elevated text-bb-muted"
                     }`}
                   >
                     {cell ?? ""}
@@ -131,7 +126,7 @@ export function LiveBingoCard({
             </div>
           </div>
 
-          <p className="mt-5 rounded-2xl border border-[#FFC83D]/20 bg-[#FFC83D]/10 px-4 py-3 text-center text-sm font-semibold italic text-white">
+          <p className="mt-5 rounded-2xl border border-bb-gold/25 bg-bb-gold/5 px-4 py-3 text-center text-sm font-semibold italic text-bb-text">
             &ldquo;{callerLine}&rdquo;
           </p>
         </div>

@@ -49,7 +49,7 @@ export function FooterSocialLink({ label, href, icon }: FooterSocialProps) {
       href={href}
       aria-label={label}
       data-testid={`footer-social-${icon}`}
-      className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-[#B9B9C5] transition-colors hover:border-[#FF2D75]/40 hover:bg-[#FF2D75]/10 hover:text-white"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-bb-border bg-bb-elevated text-bb-muted transition-colors hover:border-bb-primary/30 hover:bg-bb-primary/5 hover:text-bb-primary"
     >
       <SocialIcon icon={icon} />
     </a>

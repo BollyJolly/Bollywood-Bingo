@@ -40,7 +40,7 @@ export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardPro
       transition={{ duration: 0.45, delay: index * 0.06, ease: "easeOut" }}
       className="group"
     >
-      <div className="flex h-full flex-col rounded-2xl border border-[#F0F0F3] bg-white p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]">
+      <div className="flex h-full flex-col rounded-2xl border border-bb-border bg-bb-elevated p-4 shadow-[0_4px_20px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_28px_rgba(0,0,0,0.1)]">
         <div className="flex items-start justify-between gap-2">
           <span
             className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-wide ${statusStyle.className}`}
@@ -48,28 +48,28 @@ export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardPro
             <span className="text-[8px]">●</span>
             {statusStyle.label}
           </span>
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FFF0F5] text-lg">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-bb-primary/10 text-lg">
             {room.emoji}
           </span>
         </div>
 
-        <h3 className="mt-3 text-[15px] font-bold leading-snug text-[#1B1B25]">{room.name}</h3>
+        <h3 className="mt-3 text-[15px] font-bold leading-snug text-bb-text">{room.name}</h3>
 
-        <span className="mt-1.5 inline-block w-fit rounded-md bg-[#FFF0F5] px-2 py-0.5 text-[11px] font-medium text-[#FF2D75]">
+        <span className="mt-1.5 inline-block w-fit rounded-md bg-bb-primary/10 px-2 py-0.5 text-[11px] font-medium text-bb-primary">
           {room.theme}
         </span>
 
-        <p className="mt-3 text-xs text-[#9CA3AF]">
+        <p className="mt-3 text-xs text-bb-muted">
           {room.playerCount} / {room.maxPlayers} Players
         </p>
 
         <div className="relative mt-2">
-          <span className="absolute -top-4 right-0 text-[10px] font-medium text-[#9CA3AF]">
+          <span className="absolute -top-4 right-0 text-[10px] font-medium text-bb-muted">
             {fillPercent}%
           </span>
-          <div className="h-1.5 overflow-hidden rounded-full bg-[#F3F4F6]">
+          <div className="h-1.5 overflow-hidden rounded-full bg-bb-surface">
             <motion.div
-              className="h-full rounded-full bg-gradient-to-r from-[#FF2D75] to-[#8B5CF6]"
+              className="h-full rounded-full bg-bb-primary transition-all duration-500"
               initial={{ width: 0 }}
               whileInView={{ width: `${fillPercent}%` }}
               viewport={{ once: true }}
@@ -78,19 +78,19 @@ export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardPro
           </div>
         </div>
 
-        <div className="mt-5 flex items-center justify-between gap-2 text-[11px] text-[#6B7280]">
+        <div className="mt-5 flex items-center justify-between gap-2 text-[11px] text-bb-muted">
           <span className="inline-flex items-center gap-1 font-medium">
-            <Star className="h-3.5 w-3.5 fill-[#FFC83D] text-[#FFC83D]" />
+            <Star className="h-3.5 w-3.5 fill-bb-gold text-bb-gold" />
             {room.entryFee} Stars Entry
           </span>
           <span className="inline-flex min-w-0 items-center gap-1.5">
             <Avatar className="h-5 w-5">
-              <AvatarFallback className="bg-gradient-to-br from-[#8B5CF6] to-[#FF2D75] text-[8px] font-bold text-white">
+              <AvatarFallback className="bg-bb-primary text-[8px] font-bold text-white">
                 {room.hostInitials}
               </AvatarFallback>
             </Avatar>
             <span className="truncate">
-              Host: <span className="font-semibold text-[#374151]">{room.hostName}</span>
+              Host: <span className="font-semibold text-bb-text">{room.hostName}</span>
             </span>
           </span>
         </div>
@@ -103,7 +103,7 @@ export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardPro
             whileHover={isFull ? undefined : { scale: 1.02 }}
             whileTap={isFull ? undefined : { scale: 0.98 }}
             data-testid={`button-join-room-${room.id}`}
-            className="flex-1 rounded-lg bg-[#FF2D75] py-2 text-xs font-semibold text-white transition-colors hover:bg-[#E91E63] disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex-1 rounded-lg bg-bb-primary py-2 text-xs font-semibold text-white transition-colors hover:bg-bb-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             Join Now
           </motion.button>
@@ -113,7 +113,7 @@ export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardPro
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             data-testid={`button-preview-room-${room.id}`}
-            className="flex-1 rounded-lg border border-[#FF2D75] bg-white py-2 text-xs font-semibold text-[#FF2D75] transition-colors hover:bg-[#FFF0F5]"
+            className="flex-1 rounded-lg border border-bb-primary bg-bb-elevated py-2 text-xs font-semibold text-bb-primary transition-colors hover:bg-bb-primary/10"
           >
             Preview
           </motion.button>
