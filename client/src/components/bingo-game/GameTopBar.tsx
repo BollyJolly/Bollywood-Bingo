@@ -2,14 +2,18 @@ import { ArrowLeft, Music2 } from "lucide-react";
 import { useLocation } from "wouter";
 import { CURRENT_CALL } from "./bingoGameData";
 
-export function GameTopBar() {
+type GameTopBarProps = {
+  onLeaveRoom: () => void;
+};
+
+export function GameTopBar({ onLeaveRoom }: GameTopBarProps) {
   const [, setLocation] = useLocation();
 
   return (
     <header className="flex items-center justify-between gap-4">
       <button
         type="button"
-        onClick={() => setLocation("/")}
+        onClick={onLeaveRoom}
         className="inline-flex items-center gap-2 rounded-xl border border-bb-border bg-bb-elevated px-4 py-2.5 text-sm font-medium text-bb-text transition-colors hover:bg-bb-surface"
       >
         <ArrowLeft className="h-4 w-4 text-bb-muted" />

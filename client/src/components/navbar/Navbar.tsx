@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Menu } from "lucide-react";
+import { useAuth } from "@/global/authContext";
 import { MobileMenu } from "./MobileMenu";
 import { NavbarActions } from "./NavbarActions";
 import { NavbarLogo } from "./NavbarLogo";
@@ -7,12 +8,41 @@ import { NavbarNavLink } from "./NavbarNavLink";
 import { navLinks } from "./navbarData";
 import { useActiveSection } from "./useActiveSection";
 
-export function Navbar() {
+type NavbarProps = {
+  onCreateRoom: () => void;
+};
+
+export function Navbar({ onCreateRoom }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeId = useActiveSection();
+  const { user, clearTokens, isLoggedIn } = useAuth();
+  function resolveDisplayName(u: any) {
+    if (!u) return null;
+    return (
+      u.name ||
+      u.fullName ||
+      u.full_name ||
+      [u.firstName, u.lastName].filter(Boolean).join(" ") ||
+      [u.first_name, u.last_name].filter(Boolean).join(" ") ||
+      u.email ||
+      u.username ||
+      null
+    );
+  }
+
+  const fullName = resolveDisplayName(user);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const goToAuth = () => {
+    window.location.hash = "#/login";
+  };
+
+  const goToLogout = () => {
+    clearTokens();
+    window.location.hash = "#/";
   };
 
   const isLinkActive = (sectionId: string | null) => {
@@ -45,9 +75,13 @@ export function Navbar() {
           </nav>
 
           <div className="flex shrink-0 items-center gap-2">
-            <NavbarActions
-              onCreateRoom={() => scrollTo("live-rooms")}
+              <NavbarActions
+              onCreateRoom={onCreateRoom}
               onWalletClick={() => scrollTo("star-wallet")}
+              onAuthClick={goToAuth}
+              onLogout={goToLogout}
+              userName={fullName}
+              isLoggedIn={isLoggedIn}
             />
 
             <button
@@ -67,8 +101,12 @@ export function Navbar() {
         open={mobileOpen}
         activeId={activeId}
         onClose={() => setMobileOpen(false)}
-        onCreateRoom={() => scrollTo("live-rooms")}
+        onCreateRoom={onCreateRoom}
         onWalletClick={() => scrollTo("star-wallet")}
+        onAuthClick={goToAuth}
+        onLogout={goToLogout}
+        userName={fullName}
+        isLoggedIn={isLoggedIn}
       />
     </>
   );

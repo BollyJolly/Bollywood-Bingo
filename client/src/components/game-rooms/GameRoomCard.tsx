@@ -29,7 +29,7 @@ const STATUS_STYLES = {
 export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardProps) {
   const displayStatus = getDisplayStatus(room);
   const statusStyle = STATUS_STYLES[displayStatus];
-  const fillPercent = Math.min(100, Math.round((room.playerCount / room.maxPlayers) * 100));
+  const fillPercent = room.maxPlayers > 0 ? Math.min(100, Math.round((room.playerCount / room.maxPlayers) * 100)) : 0;
   const isFull = displayStatus === "full";
 
   return (

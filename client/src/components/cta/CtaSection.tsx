@@ -3,7 +3,11 @@ import { Gamepad2, Star } from "lucide-react";
 import { CtaBingoBalls } from "./CtaBingoBalls";
 import { CtaConfetti } from "./CtaConfetti";
 
-export function CtaSection() {
+type CtaSectionProps = {
+  onCreateRoom: () => void;
+};
+
+export function CtaSection({ onCreateRoom }: CtaSectionProps) {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -43,7 +47,7 @@ export function CtaSection() {
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
           <motion.button
             type="button"
-            onClick={() => scrollTo("live-rooms")}
+            onClick={onCreateRoom}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.98 }}
             data-testid="button-cta-create-room"

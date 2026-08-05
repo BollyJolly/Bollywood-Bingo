@@ -1,4 +1,7 @@
 import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { apiClient } from "@/global/apiClient";
+import { useLocation } from "wouter";
 import { GameTopBar } from "./GameTopBar";
 import { RoomInfoCard } from "./RoomInfoCard";
 import { ChatPanel } from "./ChatPanel";
@@ -6,10 +9,34 @@ import { GamePlayPanel } from "@/components/game/GamePlayPanel";
 import { ROOM_INFO } from "./bingoGameData";
 
 export function GameLayout() {
+  const [, setLocation] = useLocation();
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  const roomCode = useMemo(() => {
+    const hash = window.location.hash || "";
+    const parts = hash.replace(/^#/, "").split("/").filter(Boolean);
+    if (parts[0] === "bingo-game" && parts[1]) return parts[1];
+    if (parts[0] === "room" && parts[1]) return parts[1];
+    return ROOM_INFO.roomCode;
+  }, []);
+
+  const handleLeaveRoom = async () => {
+    if (isLeaving) return;
+    setIsLeaving(true);
+    try {
+      await apiClient.post(`/api/v1/rooms/${roomCode}/leave`);
+      setLocation("/");
+    } catch {
+      setLocation("/");
+    } finally {
+      setIsLeaving(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-bb-bg">
       <div className="mx-auto max-w-[1440px] px-5 py-4 sm:px-8 sm:py-5">
-        <GameTopBar />
+        <GameTopBar onLeaveRoom={handleLeaveRoom} />
 
         <motion.main
           initial={{ opacity: 0, y: 12 }}

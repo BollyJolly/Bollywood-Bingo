@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
-import { useLocation } from "wouter";
 import { GameRoomCard } from "./GameRoomCard";
 import { GameRoomFilters } from "./GameRoomFilters";
 import { GameRoomHeader } from "./GameRoomHeader";
-import {
-  gameRooms,
-  type CategoryFilter,
-  type StatusFilter,
-} from "./gameRoomsData";
+import { type CategoryFilter, type GameRoom, type StatusFilter } from "./gameRoomsData";
 
-export function GameRoomsSection() {
-  const [, setLocation] = useLocation();
+type GameRoomsSectionProps = {
+  onCreateRoom: () => void;
+  onJoinRoom: (roomCode: string) => void;
+  rooms: GameRoom[];
+};
+
+export function GameRoomsSection({ onCreateRoom, onJoinRoom, rooms }: GameRoomsSectionProps) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,7 +18,7 @@ export function GameRoomsSection() {
   const filteredRooms = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
-    return gameRooms.filter((room) => {
+    return rooms.filter((room) => {
       const matchesSearch =
         !query ||
         room.name.toLowerCase().includes(query) ||
@@ -48,8 +48,8 @@ export function GameRoomsSection() {
       className="bg-bb-surface px-5 pb-16 pt-20 sm:px-8 lg:px-12 lg:pb-20 lg:pt-24"
       data-testid="section-live-game-rooms"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <GameRoomHeader onCreateRoom={() => setLocation("/bingo-game")} />
+            <div className="mx-auto max-w-[1400px]">
+        <GameRoomHeader onCreateRoom={onCreateRoom} />
 
         <div className="mt-8">
           <GameRoomFilters
@@ -69,7 +69,7 @@ export function GameRoomsSection() {
                 key={room.id}
                 room={room}
                 index={index}
-                onJoin={() => scrollTo("live-rooms")}
+                onJoin={onJoinRoom}
                 onPreview={() => scrollTo("live-rooms")}
               />
             ))}
