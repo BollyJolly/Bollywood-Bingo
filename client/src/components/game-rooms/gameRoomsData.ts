@@ -100,6 +100,6 @@ export const categoryFilters: { id: CategoryFilter; label: string }[] = [
 ];
 
 export function getDisplayStatus(room: GameRoom): "live" | "waiting" | "full" {
-  if (room.playerCount >= room.maxPlayers) return "full";
+  if (room.maxPlayers > 0 && room.playerCount >= room.maxPlayers) return "full";
   return room.status;
 }

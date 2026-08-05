@@ -2,13 +2,15 @@ import { useMemo, useState } from "react";
 import { GameRoomCard } from "./GameRoomCard";
 import { GameRoomFilters } from "./GameRoomFilters";
 import { GameRoomHeader } from "./GameRoomHeader";
-import {
-  gameRooms,
-  type CategoryFilter,
-  type StatusFilter,
-} from "./gameRoomsData";
+import { type CategoryFilter, type GameRoom, type StatusFilter } from "./gameRoomsData";
 
-export function GameRoomsSection() {
+type GameRoomsSectionProps = {
+  onCreateRoom: () => void;
+  onJoinRoom: (roomCode: string) => void;
+  rooms: GameRoom[];
+};
+
+export function GameRoomsSection({ onCreateRoom, onJoinRoom, rooms }: GameRoomsSectionProps) {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +18,7 @@ export function GameRoomsSection() {
   const filteredRooms = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
-    return gameRooms.filter((room) => {
+    return rooms.filter((room) => {
       const matchesSearch =
         !query ||
         room.name.toLowerCase().includes(query) ||
@@ -43,11 +45,11 @@ export function GameRoomsSection() {
   return (
     <section
       id="live-rooms"
-      className="bg-[#F9FAFB] px-5 pb-16 pt-20 sm:px-8 lg:px-12 lg:pb-20 lg:pt-24"
+      className="bg-bb-surface px-5 pb-16 pt-20 sm:px-8 lg:px-12 lg:pb-20 lg:pt-24"
       data-testid="section-live-game-rooms"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <GameRoomHeader onCreateRoom={() => scrollTo("live-rooms")} />
+            <div className="mx-auto max-w-[1400px]">
+        <GameRoomHeader onCreateRoom={onCreateRoom} />
 
         <div className="mt-8">
           <GameRoomFilters
@@ -67,18 +69,18 @@ export function GameRoomsSection() {
                 key={room.id}
                 room={room}
                 index={index}
-                onJoin={() => scrollTo("live-rooms")}
+                onJoin={onJoinRoom}
                 onPreview={() => scrollTo("live-rooms")}
               />
             ))}
           </div>
         ) : (
           <div
-            className="mt-8 rounded-2xl border border-dashed border-[#E5E7EB] bg-white px-6 py-14 text-center"
+            className="mt-8 rounded-2xl border border-dashed border-bb-border bg-bb-elevated px-6 py-14 text-center"
             data-testid="empty-game-rooms"
           >
-            <p className="text-base font-semibold text-[#1B1B25]">No rooms match your filters</p>
-            <p className="mt-2 text-sm text-[#7D7D8E]">Try a different theme or clear your search.</p>
+            <p className="text-base font-semibold text-bb-text">No rooms match your filters</p>
+            <p className="mt-2 text-sm text-bb-muted">Try a different theme or clear your search.</p>
           </div>
         )}
 
@@ -88,7 +90,7 @@ export function GameRoomsSection() {
               type="button"
               onClick={() => scrollTo("cta")}
               data-testid="button-view-all-rooms"
-              className="rounded-full border border-[#E5E7EB] bg-white px-6 py-2.5 text-sm font-semibold text-[#374151] shadow-sm transition-all hover:border-[#D1D5DB] hover:shadow-md"
+              className="rounded-full border border-bb-border bg-bb-elevated px-6 py-2.5 text-sm font-semibold text-bb-text shadow-sm transition-all hover:border-[#D1D5DB] hover:shadow-md"
             >
               View All Rooms →
             </button>

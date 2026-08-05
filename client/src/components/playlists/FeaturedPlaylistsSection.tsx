@@ -9,15 +9,15 @@ export function FeaturedPlaylistsSection() {
   return (
     <section
       id="featured-playlists"
-      className="bg-[#FFF8F1] px-5 py-24 sm:px-8 lg:px-12 lg:py-28"
+      className="bg-bb-bg px-5 py-24 sm:px-8 lg:px-12 lg:py-28"
       data-testid="section-featured-playlists"
     >
       <div className="mx-auto max-w-[1400px]">
         <div className="mb-14 text-center">
-          <h2 className="text-3xl font-black tracking-tight text-[#1B1B25] sm:text-4xl">
+          <h2 className="text-3xl font-black tracking-tight text-bb-text sm:text-4xl">
             Featured Playlists
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-base text-[#7D7D8E]">
+          <p className="mx-auto mt-3 max-w-md text-base text-bb-muted">
             Choose your favorite playlist and start the fun.
           </p>
         </div>

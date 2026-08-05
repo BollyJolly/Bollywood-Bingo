@@ -15,20 +15,18 @@ export function HeroContent({ onPlayClick, onWatchClick }: HeroContentProps) {
       transition={{ duration: 0.7, ease: "easeOut" }}
       className="max-w-xl"
     >
-      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-[#B9B9C5] backdrop-blur-md">
+      <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-bb-border bg-bb-elevated px-4 py-2 text-sm font-medium text-bb-muted shadow-sm">
         <span aria-hidden="true">🎵</span>
         First Multiplayer Bollywood Bingo
       </div>
 
-      <h1 className="text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.25rem]">
+      <h1 className="text-4xl font-black leading-[1.08] tracking-tight text-bb-text sm:text-5xl lg:text-[3.25rem]">
         Play Bollywood Bingo
         <br />
-        <span className="bg-gradient-to-r from-[#FF2D75] via-[#FFC83D] to-[#8B5CF6] bg-clip-text text-transparent">
-          Live. Fun. Anywhere.
-        </span>
+        <span className="text-bb-primary">Live. Fun. Anywhere.</span>
       </h1>
 
-      <p className="mt-5 max-w-md text-base leading-relaxed text-[#B9B9C5] sm:text-lg">
+      <p className="mt-5 max-w-md text-base leading-relaxed text-bb-muted sm:text-lg">
         Play Bollywood, Sangeet, Diwali and Kitty Party Bingo with friends across the world.
       </p>
 
@@ -39,7 +37,7 @@ export function HeroContent({ onPlayClick, onWatchClick }: HeroContentProps) {
           data-testid="button-hero-play"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.98 }}
-          className="inline-flex min-h-12 items-center gap-2 rounded-2xl bg-[#FF2D75] px-7 text-sm font-bold text-white shadow-lg shadow-[#FF2D75]/25 transition-colors hover:bg-[#E81E63]"
+          className="bb-btn-primary min-h-12 gap-2 px-7 text-sm"
         >
           <Play className="h-4 w-4 fill-current" />
           Play Free
@@ -51,7 +49,7 @@ export function HeroContent({ onPlayClick, onWatchClick }: HeroContentProps) {
           data-testid="button-hero-preview"
           whileHover={{ scale: 1.04 }}
           whileTap={{ scale: 0.98 }}
-          className="inline-flex min-h-12 items-center gap-2 rounded-2xl border border-white/30 bg-transparent px-7 text-sm font-bold text-white backdrop-blur-sm transition-colors hover:border-white/50 hover:bg-white/5"
+          className="bb-btn-ghost min-h-12 gap-2 px-7 text-sm"
         >
           <Radio className="h-4 w-4" />
           Watch Live Rooms

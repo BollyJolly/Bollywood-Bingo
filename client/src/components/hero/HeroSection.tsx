@@ -58,7 +58,7 @@ export function HeroSection({ liveCard }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative bg-[#0D0B16] text-white"
+      className="relative bg-bb-bg text-bb-text"
       data-testid="section-hero"
     >
       <Swiper

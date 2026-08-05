@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { mobileExtraLinks, navLinks } from "./navbarData";
 import { NavbarNavLink } from "./NavbarNavLink";
 import { StarWalletPill } from "./StarWalletPill";
@@ -10,7 +11,18 @@ type MobileMenuProps = {
   onClose: () => void;
   onCreateRoom: () => void;
   onWalletClick: () => void;
+  onAuthClick: () => void;
+  onLogout: () => void;
+  isLoggedIn?: boolean;
+  userName?: string | null;
 };
+
+function getInitials(name?: string | null) {
+  if (!name) return "BB";
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "BB";
+  return parts.slice(0, 2).map((part) => part[0]?.toUpperCase() ?? "").join("").slice(0, 2);
+}
 
 export function MobileMenu({
   open,
@@ -18,6 +30,10 @@ export function MobileMenu({
   onClose,
   onCreateRoom,
   onWalletClick,
+  onAuthClick,
+  onLogout,
+  isLoggedIn = false,
+  userName,
 }: MobileMenuProps) {
   const scrollAndClose = (href: string) => {
     if (href === "#") {
@@ -37,7 +53,7 @@ export function MobileMenu({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[60] bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -47,27 +63,27 @@ export function MobileMenu({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 280 }}
-            className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-sm flex-col bg-[#0D0B16] shadow-2xl lg:hidden"
+            className="fixed inset-y-0 right-0 z-[70] flex w-full max-w-sm flex-col border-l border-bb-border bg-bb-elevated shadow-xl lg:hidden"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation menu"
             data-testid="mobile-menu"
           >
-            <div className="flex h-20 items-center justify-between border-b border-white/10 px-5">
-              <span className="text-lg font-bold text-white">Menu</span>
+            <div className="flex h-16 items-center justify-between border-b border-bb-border px-5">
+              <span className="text-base font-semibold text-bb-text">Menu</span>
               <button
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
                 data-testid="mobile-menu-close"
-                className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-[#B9B9C5] hover:text-white"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-bb-border text-bb-muted hover:bg-bb-surface"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <nav className="flex-1 overflow-y-auto px-5 py-6">
-              <ul className="space-y-1">
+            <nav className="flex-1 overflow-y-auto px-4 py-5">
+              <ul className="space-y-0.5">
                 {navLinks.map((link) => (
                   <li key={link.id}>
                     <NavbarNavLink
@@ -85,16 +101,16 @@ export function MobileMenu({
                 ))}
               </ul>
 
-              <div className="my-6 border-t border-white/10" />
+              <div className="my-5 border-t border-bb-border" />
 
-              <ul className="space-y-1">
+              <ul className="space-y-0.5">
                 {mobileExtraLinks.map((link) => (
                   <li key={link.id}>
                     <button
                       type="button"
                       onClick={() => scrollAndClose(link.href)}
                       data-testid={`mobile-nav-${link.id}`}
-                      className="w-full px-3 py-3 text-left text-sm font-medium text-[#B9B9C5] transition-colors hover:text-[#FF2D75]"
+                      className="w-full rounded-lg px-3 py-2.5 text-left text-[13px] font-medium text-bb-muted transition-colors hover:bg-bb-surface hover:text-bb-text"
                     >
                       {link.label}
                     </button>
@@ -102,20 +118,49 @@ export function MobileMenu({
                 ))}
               </ul>
 
-              <div className="mt-8">
+              <div className="mt-6">
                 <StarWalletPill onClick={() => { onWalletClick(); onClose(); }} />
               </div>
             </nav>
 
-            <div className="border-t border-white/10 p-5">
-              <button
-                type="button"
-                onClick={() => { onCreateRoom(); onClose(); }}
-                data-testid="mobile-nav-create-room"
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#FF2D75] py-3 text-sm font-bold text-white hover:bg-[#E91E63]"
-              >
-                Create Room
-              </button>
+            <div className="border-t border-white/10 p-5 space-y-3">
+              {isLoggedIn ? (
+                <div className="space-y-2">
+                  <div className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-white">
+                    <Avatar className="h-9 w-9">
+                      <AvatarFallback className="bg-gradient-to-br from-[#8B5CF6] to-[#FF2D75] text-xs font-bold text-white">
+                        {getInitials(userName)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="truncate">{userName}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => { onCreateRoom(); onClose(); }}
+                    data-testid="mobile-nav-create-room"
+                    className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-bb-primary text-sm font-semibold text-white hover:bg-bb-primary-hover"
+                  >
+                    Create Room
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { onLogout(); onClose(); }}
+                    data-testid="mobile-nav-logout"
+                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-left text-[13px] font-medium text-white hover:bg-white/10"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => { onAuthClick(); onClose(); }}
+                  data-testid="mobile-nav-auth"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-900 hover:border-gray-300 hover:bg-gray-50"
+                >
+                  Login / Register
+                </button>
+              )}
             </div>
           </motion.div>
         </>

@@ -6,11 +6,23 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: ".5625rem", /* 9px */
-        md: ".375rem", /* 6px */
-        sm: ".1875rem", /* 3px */
+        lg: "1rem",
+        md: "0.75rem",
+        sm: "0.5rem",
       },
       colors: {
+        bb: {
+          bg: "#FAFAF8",
+          surface: "#F5F5F2",
+          elevated: "#FFFFFF",
+          primary: "#FF4D7E",
+          "primary-hover": "#E83E6D",
+          gold: "#E8B931",
+          success: "#22C55E",
+          text: "#1F2937",
+          muted: "#6B7280",
+          border: "#E7E7E4",
+        },
         // Flat / base colors (regular buttons)
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
@@ -103,11 +115,11 @@ export default {
         "hero-pulse-number": {
           "0%, 100%": {
             transform: "scale(1)",
-            boxShadow: "0 0 24px rgba(255, 45, 117, 0.35), 0 0 48px rgba(139, 92, 246, 0.2)",
+            boxShadow: "0 4px 20px rgba(255, 77, 126, 0.2)",
           },
           "50%": {
-            transform: "scale(1.06)",
-            boxShadow: "0 0 36px rgba(255, 45, 117, 0.55), 0 0 64px rgba(139, 92, 246, 0.35)",
+            transform: "scale(1.04)",
+            boxShadow: "0 6px 24px rgba(255, 77, 126, 0.28)",
           },
         },
         "hero-glow-border": {

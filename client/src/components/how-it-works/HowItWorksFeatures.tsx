@@ -6,7 +6,7 @@ type HowItWorksFeaturesProps = {
 
 export function HowItWorksFeatures({ features }: HowItWorksFeaturesProps) {
   return (
-    <div className="mt-12 rounded-2xl border border-[#F0F0F3] bg-[#F3F4F6]/60 p-6 sm:p-8">
+    <div className="mt-12 rounded-2xl border border-bb-border bg-bb-surface/60 p-6 sm:p-8">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
         {features.map((feature) => (
           <div key={feature.id} className="flex gap-4">
@@ -16,8 +16,8 @@ export function HowItWorksFeatures({ features }: HowItWorksFeaturesProps) {
               <feature.Icon className={`h-5 w-5 ${feature.iconColor}`} strokeWidth={2} />
             </div>
             <div>
-              <h4 className="text-sm font-bold text-[#1B1B25]">{feature.title}</h4>
-              <p className="mt-1 text-xs leading-relaxed text-[#7D7D8E]">{feature.description}</p>
+              <h4 className="text-sm font-bold text-bb-text">{feature.title}</h4>
+              <p className="mt-1 text-xs leading-relaxed text-bb-muted">{feature.description}</p>
             </div>
           </div>
         ))}

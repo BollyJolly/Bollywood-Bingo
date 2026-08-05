@@ -40,12 +40,12 @@ export async function registerRoutes(
     res.json({ ok: true, time: new Date().toISOString() });
   });
 
-  app.get("/api/rooms", async (_req, res) => {
+  app.get(["/api/rooms", "/api/v1/rooms"], async (_req, res) => {
     const rooms = await storage.listRooms();
     res.json(rooms.map(serializeRoom));
   });
 
-  app.get("/api/rooms/:code", async (req: Request, res) => {
+  app.get(["/api/rooms/:code", "/api/v1/rooms/:code"], async (req: Request, res) => {
     const codeParse = parseRoomCodeParam(req.params.code);
     if (!codeParse.success) {
       return sendValidationError(res, codeParse.error, "Invalid room code");
@@ -58,7 +58,7 @@ export async function registerRoutes(
     res.json(serializeRoom(room));
   });
 
-  app.post("/api/rooms", async (req, res) => {
+  app.post(["/api/rooms", "/api/v1/rooms"], async (req, res) => {
     const parsed = createRoomSchema.safeParse(req.body ?? {});
     if (!parsed.success) {
       return sendValidationError(res, parsed.error, "Could not create room");
@@ -96,7 +96,7 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/rooms/:code/call", async (req, res) => {
+  app.post(["/api/rooms/:code/call", "/api/v1/rooms/:code/call"], async (req, res) => {
     const codeParse = parseRoomCodeParam(req.params.code);
     if (!codeParse.success) {
       return sendValidationError(res, codeParse.error, "Invalid room code");
@@ -154,6 +154,48 @@ export async function registerRoutes(
       res.status(500).json({ message: "Failed to update room" });
       return;
     }
+    res.json(serializeRoom(updated));
+  });
+
+  app.post(["/api/rooms/:code/join", "/api/v1/rooms/:code/join"], async (req, res) => {
+    const codeParse = parseRoomCodeParam(req.params.code);
+    if (!codeParse.success) {
+      return sendValidationError(res, codeParse.error, "Invalid room code");
+    }
+
+    const room = await storage.getRoom(codeParse.data);
+    if (!room) {
+      res.status(404).json({ message: "Room not found" });
+      return;
+    }
+
+    const updated = await storage.updateRoomPlayerCount(room.code, room.playerCount + 1);
+    if (!updated) {
+      res.status(500).json({ message: "Failed to join room" });
+      return;
+    }
+
+    res.json(serializeRoom(updated));
+  });
+
+  app.post(["/api/rooms/:code/leave", "/api/v1/rooms/:code/leave"], async (req, res) => {
+    const codeParse = parseRoomCodeParam(req.params.code);
+    if (!codeParse.success) {
+      return sendValidationError(res, codeParse.error, "Invalid room code");
+    }
+
+    const room = await storage.getRoom(codeParse.data);
+    if (!room) {
+      res.status(404).json({ message: "Room not found" });
+      return;
+    }
+
+    const updated = await storage.leaveRoom(room.code);
+    if (!updated) {
+      res.status(500).json({ message: "Failed to leave room" });
+      return;
+    }
+
     res.json(serializeRoom(updated));
   });
 

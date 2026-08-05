@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
+import { useAuth } from "@/global/authContext";
 import { MobileMenu } from "./MobileMenu";
 import { NavbarActions } from "./NavbarActions";
 import { NavbarLogo } from "./NavbarLogo";
@@ -8,12 +8,41 @@ import { NavbarNavLink } from "./NavbarNavLink";
 import { navLinks } from "./navbarData";
 import { useActiveSection } from "./useActiveSection";
 
-export function Navbar() {
+type NavbarProps = {
+  onCreateRoom: () => void;
+};
+
+export function Navbar({ onCreateRoom }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeId = useActiveSection();
+  const { user, clearTokens, isLoggedIn } = useAuth();
+  function resolveDisplayName(u: any) {
+    if (!u) return null;
+    return (
+      u.name ||
+      u.fullName ||
+      u.full_name ||
+      [u.firstName, u.lastName].filter(Boolean).join(" ") ||
+      [u.first_name, u.last_name].filter(Boolean).join(" ") ||
+      u.email ||
+      u.username ||
+      null
+    );
+  }
+
+  const fullName = resolveDisplayName(user);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const goToAuth = () => {
+    window.location.hash = "#/login";
+  };
+
+  const goToLogout = () => {
+    clearTokens();
+    window.location.hash = "#/";
   };
 
   const isLinkActive = (sectionId: string | null) => {
@@ -23,18 +52,15 @@ export function Navbar() {
 
   return (
     <>
-      <motion.header
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="sticky top-0 z-50 h-20 border-b border-white/[0.08] bg-[rgba(13,11,22,0.75)] backdrop-blur-[18px]"
+      <header
+        className="sticky top-0 z-50 border-b border-bb-border bg-bb-elevated/95 backdrop-blur-md"
         data-testid="navbar"
       >
-        <div className="mx-auto flex h-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-4 sm:px-6 lg:px-8">
           <NavbarLogo />
 
           <nav
-            className="hidden items-center gap-1 lg:flex"
+            className="hidden flex-1 items-center justify-center gap-0.5 lg:flex"
             aria-label="Main navigation"
           >
             {navLinks.map((link) => (
@@ -48,10 +74,14 @@ export function Navbar() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <NavbarActions
-              onCreateRoom={() => scrollTo("live-rooms")}
+          <div className="flex shrink-0 items-center gap-2">
+              <NavbarActions
+              onCreateRoom={onCreateRoom}
               onWalletClick={() => scrollTo("star-wallet")}
+              onAuthClick={goToAuth}
+              onLogout={goToLogout}
+              userName={fullName}
+              isLoggedIn={isLoggedIn}
             />
 
             <button
@@ -59,20 +89,24 @@ export function Navbar() {
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               data-testid="navbar-menu-toggle"
-              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-bb-border text-bb-muted transition-colors hover:bg-bb-surface hover:text-bb-text lg:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <MobileMenu
         open={mobileOpen}
         activeId={activeId}
         onClose={() => setMobileOpen(false)}
-        onCreateRoom={() => scrollTo("live-rooms")}
+        onCreateRoom={onCreateRoom}
         onWalletClick={() => scrollTo("star-wallet")}
+        onAuthClick={goToAuth}
+        onLogout={goToLogout}
+        userName={fullName}
+        isLoggedIn={isLoggedIn}
       />
     </>
   );

@@ -16,7 +16,7 @@ export function CtaBingoBalls() {
       {BALLS.map((ball) => (
         <div
           key={ball.id}
-          className="absolute flex animate-bingo-ball-float items-center justify-center rounded-full border border-white/10 bg-white/5 font-black text-white/25 shadow-[0_0_30px_rgba(255,45,117,0.15)] backdrop-blur-sm"
+          className="absolute flex animate-bingo-ball-float items-center justify-center rounded-full border border-bb-border bg-bb-elevated font-black text-bb-primary/15 shadow-sm"
           style={{
             left: ball.left,
             top: ball.top,

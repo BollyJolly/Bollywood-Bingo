@@ -154,6 +154,8 @@ export interface IStorage {
   listRooms(): Promise<GameRoom[]>;
   getRoom(code: string): Promise<GameRoom | undefined>;
   createRoom(room: InsertGameRoom): Promise<GameRoom>;
+  updateRoomPlayerCount(code: string, playerCount: number): Promise<GameRoom | undefined>;
+  leaveRoom(code: string): Promise<GameRoom | undefined>;
   updateRoomCalls(code: string, calledNumbers: number[], hostMode: string): Promise<GameRoom | undefined>;
   listPlayers(): Promise<Player[]>;
   listPlans(): Promise<UnlockPlan[]>;
@@ -170,6 +172,26 @@ export class DatabaseStorage implements IStorage {
 
   async createRoom(room: InsertGameRoom): Promise<GameRoom> {
     return db.insert(gameRooms).values(room).returning().get();
+  }
+
+  async updateRoomPlayerCount(code: string, playerCount: number): Promise<GameRoom | undefined> {
+    db.update(gameRooms)
+      .set({ playerCount })
+      .where(eq(gameRooms.code, code))
+      .run();
+    return this.getRoom(code);
+  }
+
+  async leaveRoom(code: string): Promise<GameRoom | undefined> {
+    const room = await this.getRoom(code);
+    if (!room) return undefined;
+
+    const nextCount = Math.max(0, (room.playerCount ?? 0) - 1);
+    db.update(gameRooms)
+      .set({ playerCount: nextCount })
+      .where(eq(gameRooms.code, code))
+      .run();
+    return this.getRoom(code);
   }
 
   async updateRoomCalls(code: string, calledNumbers: number[], hostMode: string): Promise<GameRoom | undefined> {
