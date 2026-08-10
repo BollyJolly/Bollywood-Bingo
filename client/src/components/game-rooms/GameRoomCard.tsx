@@ -11,8 +11,12 @@ type GameRoomCardProps = {
   onPreview: (roomId: string) => void;
 };
 
-const STATUS_STYLES = {
+const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   live: {
+    label: "LIVE",
+    className: "bg-[#10B981] text-white",
+  },
+  playing: {
     label: "LIVE",
     className: "bg-[#10B981] text-white",
   },
@@ -24,11 +28,18 @@ const STATUS_STYLES = {
     label: "FULL",
     className: "bg-[#EF4444] text-white",
   },
-} as const;
+  finished: {
+    label: "FINISHED",
+    className: "bg-[#6B7280] text-white",
+  },
+};
 
 export function GameRoomCard({ room, index, onJoin, onPreview }: GameRoomCardProps) {
-  const displayStatus = getDisplayStatus(room);
-  const statusStyle = STATUS_STYLES[displayStatus];
+  const displayStatus = getDisplayStatus(room) || "waiting";
+  const statusStyle = STATUS_STYLES[displayStatus] ?? {
+    label: String(displayStatus).toUpperCase(),
+    className: "bg-[#6B7280] text-white",
+  };
   const fillPercent = room.maxPlayers > 0 ? Math.min(100, Math.round((room.playerCount / room.maxPlayers) * 100)) : 0;
   const isFull = displayStatus === "full";
 

@@ -11,11 +11,12 @@ type GamePlayPanelProps = {
 };
 
 export function GamePlayPanel({ category = "Bollywood" }: GamePlayPanelProps) {
-  const { initGame } = useBingoGame();
+  const { initGame, fetchRoom } = useBingoGame();
 
   useEffect(() => {
     initGame(category);
-  }, [category, initGame]);
+    fetchRoom();
+  }, [category, initGame, fetchRoom]);
 
   return (
     <>

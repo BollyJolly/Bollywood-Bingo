@@ -63,9 +63,17 @@ export function markSong(card: PlayerCard, songId: number): PlayerCard {
   };
 }
 
-export function toggleCellMark(card: PlayerCard, cellIndex: number): PlayerCard {
+export function toggleCellMark(
+  card: PlayerCard,
+  cellIndex: number,
+  calledSongs?: number[],
+): PlayerCard {
   const cell = card.cells[cellIndex];
   if (!cell || cell.isFree) return card;
+
+  if (!cell.marked && calledSongs && !calledSongs.includes(cell.id)) {
+    return card;
+  }
 
   return {
     cells: card.cells.map((c, i) =>

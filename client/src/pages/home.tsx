@@ -4,6 +4,7 @@ import { createRoom } from "@/global/roomsApi";
 import { getRooms } from "@/global/roomsApi";
 import { joinRoom } from "@/global/roomsApi";
 import { useAuth } from "@/global/authContext";
+import { getPlaylists } from "@/global/playlistsApi";
 import { CategoriesSection } from "@/components/categories/CategoriesSection";
 import { CtaSection } from "@/components/cta/CtaSection";
 import { FaqSection } from "@/components/faq/FaqSection";
@@ -12,7 +13,6 @@ import { GameRoomsSection } from "@/components/game-rooms/GameRoomsSection";
 import { HeroSection } from "@/components/hero/HeroSection";
 import { HowItWorksSection } from "@/components/how-it-works/HowItWorksSection";
 import { Navbar } from "@/components/navbar/Navbar";
-import { FeaturedPlaylistsSection } from "@/components/playlists/FeaturedPlaylistsSection";
 import { StarWalletSection } from "@/components/star-wallet/StarWalletSection";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -95,16 +95,24 @@ function Home() {
   const { user } = useAuth();
   const [createRoomOpen, setCreateRoomOpen] = useState(false);
   const [roomTitle, setRoomTitle] = useState("");
-  const [roomTheme, setRoomTheme] = useState("");
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState("bollywood-classics");
   const [roomVisibility, setRoomVisibility] = useState<"public" | "private">("public");
   const [hostName, setHostName] = useState(user?.name ?? "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [createRoomError, setCreateRoomError] = useState<string | null>(null);
 
-  const { data: liveRooms = [] } = useQuery({
+  const { data: rawPlaylists } = useQuery({
+    queryKey: ["playlists"],
+    queryFn: getPlaylists,
+  });
+
+  const { data: rawLiveRooms } = useQuery({
     queryKey: ["live-rooms"],
     queryFn: getRooms,
   });
+
+  const playlists = useMemo(() => (Array.isArray(rawPlaylists) ? rawPlaylists : []), [rawPlaylists]);
+  const liveRooms = useMemo(() => (Array.isArray(rawLiveRooms) ? rawLiveRooms : []), [rawLiveRooms]);
 
   const rooms = useMemo(() => liveRooms.map(toGameRoom), [liveRooms]);
   const activeRoom = rooms[0];
@@ -131,8 +139,27 @@ function Home() {
     event.preventDefault();
     setCreateRoomError(null);
 
-    if (!roomTitle.trim() || !roomTheme.trim() || !hostName.trim()) {
-      setCreateRoomError("Title, theme, and host name are required.");
+    const availablePlaylists = playlists.length ? playlists : [
+      { id: "diwali-hits", name: "Diwali Hits", emoji: "🪔" },
+      { id: "sangeet-songs", name: "Sangeet Songs", emoji: "🎵" },
+      { id: "ladies-club", name: "Ladies Club", emoji: "👑" },
+      { id: "bollywood-classics", name: "Bollywood Classics", emoji: "🎬" },
+      { id: "dance-masala", name: "Dance Masala", emoji: "🕺" },
+      { id: "punjabi-tadka", name: "Punjabi Tadka", emoji: "🥁" },
+      { id: "romantic-hits", name: "Romantic Hits", emoji: "💕" },
+      { id: "garba-night", name: "Garba Night", emoji: "🪩" },
+      { id: "kitty-party", name: "Kitty Party", emoji: "☕" },
+      { id: "holi-colors", name: "Holi Colors", emoji: "🎨" },
+      { id: "retro-90s", name: "Retro 90s", emoji: "📼" },
+      { id: "wedding-antakshari", name: "Wedding Antakshari", emoji: "🎤" },
+    ];
+
+    const playlistId = selectedPlaylistId || availablePlaylists[0]?.id || "bollywood-classics";
+    const matchedPlaylist = availablePlaylists.find((p) => p.id === playlistId) ?? availablePlaylists[0];
+    const themeName = matchedPlaylist?.name || "Bollywood Classics";
+
+    if (!roomTitle.trim() || !hostName.trim()) {
+      setCreateRoomError("Title and host name are required.");
       return;
     }
 
@@ -140,7 +167,8 @@ function Home() {
     try {
       const created = await createRoom({
         title: roomTitle.trim(),
-        theme: roomTheme.trim(),
+        theme: themeName,
+        playlistId: playlistId,
         visibility: roomVisibility,
         hostName: hostName.trim(),
         hostMode: "random",
@@ -148,7 +176,7 @@ function Home() {
 
       setCreateRoomOpen(false);
       setRoomTitle("");
-      setRoomTheme("");
+      setSelectedPlaylistId("bollywood-classics");
       setRoomVisibility("public");
       setCreateRoomError(null);
 
@@ -193,8 +221,6 @@ function Home() {
 
       <StarWalletSection />
 
-      <FeaturedPlaylistsSection />
-
       <FaqSection />
 
       <CtaSection onCreateRoom={openCreateRoom} />
@@ -224,13 +250,31 @@ function Home() {
 
             <div className="space-y-2">
               <Label htmlFor="room-theme">Theme</Label>
-              <Input
+              <select
                 id="room-theme"
-                value={roomTheme}
-                onChange={(event) => setRoomTheme(event.target.value)}
-                placeholder="Bollywood classics"
-                className="border-white/10 bg-white/5 text-white placeholder:text-[#8F879E]"
-              />
+                value={selectedPlaylistId}
+                onChange={(event) => setSelectedPlaylistId(event.target.value)}
+                className="w-full rounded-xl border border-white/10 bg-[#1e1132] px-3.5 py-2.5 text-sm text-white focus:border-[#FF2D75] focus:outline-none"
+              >
+                {(playlists.length ? playlists : [
+                  { id: "diwali-hits", name: "Diwali Hits", emoji: "🪔" },
+                  { id: "sangeet-songs", name: "Sangeet Songs", emoji: "🎵" },
+                  { id: "ladies-club", name: "Ladies Club", emoji: "👑" },
+                  { id: "bollywood-classics", name: "Bollywood Classics", emoji: "🎬" },
+                  { id: "dance-masala", name: "Dance Masala", emoji: "🕺" },
+                  { id: "punjabi-tadka", name: "Punjabi Tadka", emoji: "🥁" },
+                  { id: "romantic-hits", name: "Romantic Hits", emoji: "💕" },
+                  { id: "garba-night", name: "Garba Night", emoji: "🪩" },
+                  { id: "kitty-party", name: "Kitty Party", emoji: "☕" },
+                  { id: "holi-colors", name: "Holi Colors", emoji: "🎨" },
+                  { id: "retro-90s", name: "Retro 90s", emoji: "📼" },
+                  { id: "wedding-antakshari", name: "Wedding Antakshari", emoji: "🎤" },
+                ]).map((playlist) => (
+                  <option key={playlist.id} value={playlist.id} className="bg-[#12081f] text-white">
+                    {playlist.emoji ? `${playlist.emoji} ${playlist.name}` : playlist.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="space-y-2">

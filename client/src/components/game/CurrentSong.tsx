@@ -7,7 +7,7 @@ export function CurrentSong() {
     useBingoGame();
 
   const { currentSong } = gameState;
-  const canCallNext = isPlaying && gameState.remainingSongs.length > 0;
+  const canCallNext = !isFinished && gameState.remainingSongs.length > 0;
 
   return (
     <div className="border-b border-bb-border bg-bb-surface p-3.5">
@@ -26,7 +26,7 @@ export function CurrentSong() {
         {isWaiting && (
           <button
             type="button"
-            onClick={startGame}
+            onClick={() => startGame()}
             className="inline-flex items-center gap-1 rounded-full bg-bb-primary px-3 py-1 text-[11px] font-semibold text-white shadow-sm transition-all hover:bg-bb-primary-hover hover:shadow-md"
           >
             <Play className="h-3 w-3 fill-white" />
@@ -63,7 +63,7 @@ export function CurrentSong() {
 
       <button
         type="button"
-        onClick={callNextSong}
+        onClick={() => callNextSong()}
         disabled={!canCallNext}
         className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-bb-primary py-2.5 text-xs font-bold text-white shadow-[0_2px_12px_rgba(255,77,126,0.35)] transition-all hover:bg-bb-primary-hover hover:shadow-[0_4px_16px_rgba(255,77,126,0.4)] disabled:bg-[#FFD6E5] disabled:text-bb-primary/60 disabled:shadow-none"
       >

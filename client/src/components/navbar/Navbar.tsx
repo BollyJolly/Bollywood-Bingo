@@ -9,10 +9,10 @@ import { navLinks } from "./navbarData";
 import { useActiveSection } from "./useActiveSection";
 
 type NavbarProps = {
-  onCreateRoom: () => void;
+  onCreateRoom?: () => void;
 };
 
-export function Navbar({ onCreateRoom }: NavbarProps) {
+export function Navbar({ onCreateRoom = () => {} }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const activeId = useActiveSection();
   const { user, clearTokens, isLoggedIn } = useAuth();

@@ -110,6 +110,18 @@ describe("POST /api/rooms", () => {
     assert.deepEqual(body.calledNumbers, []);
   });
 
+  test("creates a room with explicit playlistId", async () => {
+    const { status, body } = await api("POST", "/api/rooms", {
+      title: "Classics Room",
+      theme: "Bollywood Classics",
+      playlistId: "bollywood-classics",
+      visibility: "public",
+      hostName: "Host",
+    });
+    assert.equal(status, 201);
+    assert.equal(body.playlistId, "bollywood-classics");
+  });
+
   test("creates a private room with default 40 max", async () => {
     const { status, body } = await api("POST", "/api/rooms", {
       title: "Private Diwali",
@@ -306,6 +318,60 @@ describe("POST /api/rooms/:code/call", () => {
     const { status, body } = await api("POST", `/api/rooms/${code}/call`, { mode: "auto" });
     assert.equal(status, 400);
     assert.ok(body.errors.some((e: any) => e.field === "mode"));
+  });
+});
+
+describe("POST /api/v1/rooms/:code/next", () => {
+  test("picks next song/number for valid room", async () => {
+    const code = "NEXTRM1";
+    await api("POST", "/api/rooms", {
+      title: "Next Room Test",
+      theme: "Next theme",
+      visibility: "public",
+      hostName: "Host",
+      code,
+    });
+    const { status, body } = await api("POST", `/api/v1/rooms/${code}/next`);
+    assert.equal(status, 200);
+    assert.equal(body.calledNumbers.length, 1);
+    assert.equal(body.status, "live");
+  });
+
+  test("returns 404 for non-existent room code", async () => {
+    const { status, body } = await api("POST", "/api/v1/rooms/NOROOM404/next");
+    assert.equal(status, 404);
+    assert.equal(body.message, "Room not found");
+  });
+});
+
+describe("POST /api/v1/rooms/:code/start", () => {
+  test("starts room for valid code", async () => {
+    const code = "STARTRM1";
+    await api("POST", "/api/rooms", {
+      title: "Start Room Test",
+      theme: "Start theme",
+      visibility: "public",
+      hostName: "Host",
+      code,
+    });
+    const { status, body } = await api("POST", `/api/v1/rooms/${code}/start`);
+    assert.equal(status, 200);
+    assert.equal(body.status, "live");
+  });
+
+  test("returns 404 for unknown room", async () => {
+    const { status } = await api("POST", "/api/v1/rooms/NOSTART/start");
+    assert.equal(status, 404);
+  });
+});
+
+describe("GET /api/v1/playlists", () => {
+  test("returns list of playlists", async () => {
+    const { status, body } = await api("GET", "/api/v1/playlists");
+    assert.equal(status, 200);
+    assert.ok(Array.isArray(body));
+    assert.ok(body.length >= 12);
+    assert.equal(body[0].id, "diwali-hits");
   });
 });
 
