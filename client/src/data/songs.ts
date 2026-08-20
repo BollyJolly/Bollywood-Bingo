@@ -1,6 +1,6 @@
 import type { Song } from "@/types/bingo";
 
-export const SONGS: Song[] = Array.from({ length: 90 }, (_, i) => {
+export const SONGS: Song[] = Array.from({ length: 75 }, (_, i) => {
   const id = i + 1;
   return {
     id,

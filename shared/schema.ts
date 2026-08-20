@@ -66,13 +66,13 @@ export const roomCodeSchema = z
   .transform((value) => value.toUpperCase());
 
 export const TAMBOLA_MIN = 1;
-export const TAMBOLA_MAX = 90;
+export const TAMBOLA_MAX = 75;
 
 export const callNumberSchema = z
   .object({
     mode: hostModeSchema,
     number: z
-      .number({ invalid_type_error: "Number must be an integer between 1 and 90" })
+      .number({ invalid_type_error: "Number must be an integer between 1 and 75" })
       .int("Number must be a whole number")
       .min(TAMBOLA_MIN, `Number must be between ${TAMBOLA_MIN} and ${TAMBOLA_MAX}`)
       .max(TAMBOLA_MAX, `Number must be between ${TAMBOLA_MIN} and ${TAMBOLA_MAX}`)
@@ -83,7 +83,7 @@ export const callNumberSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["number"],
-        message: "Manual mode requires a number between 1 and 90",
+        message: "Manual mode requires a number between 1 and 75",
       });
     }
   });

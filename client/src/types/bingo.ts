@@ -24,12 +24,34 @@ export interface GameState {
   remainingSongs: number[];
   currentSong: Song | null;
   status: GameStatus;
+  enabledPatterns?: string[];
 }
 
-export type WinPattern = "horizontal" | "vertical" | "diagonal" | "full-house";
+export type WinPattern =
+  | "horizontal"
+  | "vertical"
+  | "diagonal"
+  | "full-house"
+  | "early-five"
+  | "top-line"
+  | "middle-line"
+  | "bottom-line"
+  | "four-corners"
+  | "single-line"
+  | "vertical-line"
+  | "x-pattern"
+  | "plus-cross"
+  | "pattern-t"
+  | "pattern-l"
+  | "pattern-u"
+  | "pattern-h"
+  | "pattern-z"
+  | "pattern-box"
+  | "pattern-diamond";
 
 export interface WinResult {
   pattern: WinPattern;
+  label?: string;
   /** Row index for horizontal, column index for vertical */
   lineIndex?: number;
   /** Which diagonal for diagonal wins */

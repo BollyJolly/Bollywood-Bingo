@@ -204,7 +204,7 @@ export async function registerRoutes(
     const calledNumbers = parseCalledNumbers(room.calledNumbers);
 
     if (calledNumbers.length >= TAMBOLA_MAX) {
-      res.status(409).json({ message: "All 90 numbers have already been called" });
+      res.status(409).json({ message: "All 75 numbers have already been called" });
       return;
     }
 
@@ -215,7 +215,7 @@ export async function registerRoutes(
         if (!calledNumbers.includes(n)) remaining.push(n);
       }
       if (!remaining.length) {
-        res.status(409).json({ message: "All 90 numbers have already been called" });
+        res.status(409).json({ message: "All 75 numbers have already been called" });
         return;
       }
       nextNumber = remaining[Math.floor(Math.random() * remaining.length)];
@@ -261,7 +261,7 @@ export async function registerRoutes(
     const calledNumbers = parseCalledNumbers(room.calledNumbers);
 
     if (calledNumbers.length >= TAMBOLA_MAX) {
-      res.status(409).json({ message: "All 90 numbers have already been called" });
+      res.status(409).json({ message: "All 75 numbers have already been called" });
       return;
     }
 
@@ -270,7 +270,7 @@ export async function registerRoutes(
       if (!calledNumbers.includes(n)) remaining.push(n);
     }
     if (!remaining.length) {
-      res.status(409).json({ message: "All 90 numbers have already been called" });
+      res.status(409).json({ message: "All 75 numbers have already been called" });
       return;
     }
 
@@ -324,9 +324,11 @@ export async function registerRoutes(
 
     const serialized = serializeRoom(updated);
     const songUrl = nextNumber !== undefined ? `https://pub-49cc62f340ac4f6a.r2.dev/songs/${nextNumber}.mp3` : undefined;
+    const selectedPatterns = Array.isArray(req.body?.patterns) ? req.body.patterns : undefined;
 
     res.json({
       ...(nextNumber !== undefined ? { number: nextNumber, url: songUrl } : {}),
+      ...(selectedPatterns ? { enabledPatterns: selectedPatterns } : {}),
       ...serialized,
     });
   });
@@ -409,6 +411,18 @@ export async function registerRoutes(
         benefits: parseBenefits(plan.benefits),
       }))
     );
+  });
+
+  app.post(["/api/feedback", "/api/v1/feedback"], async (req: Request, res: Response) => {
+    const { rating, message } = req.body || {};
+    const authHeader = req.headers.authorization;
+    console.log("[Feedback API] Received feedback payload:", { rating, message, authHeader });
+
+    res.status(200).json({
+      success: true,
+      message: "Feedback submitted successfully",
+      data: { rating, message },
+    });
   });
 
   return httpServer;

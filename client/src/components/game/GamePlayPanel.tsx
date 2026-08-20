@@ -20,7 +20,7 @@ export function GamePlayPanel({ category = "Bollywood" }: GamePlayPanelProps) {
 
   return (
     <>
-      <div className="flex flex-col overflow-hidden rounded-2xl border border-bb-border bg-bb-elevated shadow-[0_4px_24px_rgba(255,77,126,0.06)]">
+      <div className="flex flex-col rounded-2xl border border-bb-border bg-bb-elevated shadow-[0_4px_24px_rgba(255,77,126,0.06)] max-h-[calc(100vh-90px)] overflow-y-auto pb-4 custom-scrollbar">
         <CurrentSong />
         <div className="border-t border-bb-border px-3.5 py-3.5">
           <BingoBoard />

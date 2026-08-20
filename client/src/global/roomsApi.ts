@@ -49,8 +49,8 @@ export async function nextSong(roomCode: string) {
   return response.data;
 }
 
-export async function startRoomGame(roomCode: string) {
-  const response = await apiClient.post(`/api/v1/rooms/${roomCode}/start`);
+export async function startRoomGame(roomCode: string, patterns?: string[]) {
+  const response = await apiClient.post(`/api/v1/rooms/${roomCode}/start`, { patterns });
   return response.data;
 }
 

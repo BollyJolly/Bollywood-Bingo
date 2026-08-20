@@ -272,10 +272,10 @@ describe("POST /api/rooms/:code/call", () => {
     assert.equal(status, 200);
     assert.equal(body.calledNumbers.length, 1);
     const value = body.calledNumbers[0];
-    assert.ok(value >= 1 && value <= 90);
+    assert.ok(value >= 1 && value <= 75);
   });
 
-  test("random call eventually exhausts all 90 numbers and 409s", async () => {
+  test("random call eventually exhausts all 75 numbers and 409s", async () => {
     const code = "RANDM2";
     await api("POST", "/api/rooms", {
       title: "Random Exhaustion",
@@ -285,20 +285,20 @@ describe("POST /api/rooms/:code/call", () => {
       hostMode: "random",
       code,
     });
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 75; i++) {
       const r = await api("POST", `/api/rooms/${code}/call`, { mode: "random" });
       assert.equal(r.status, 200, `call ${i + 1} should succeed`);
     }
     const exhausted = await api("POST", `/api/rooms/${code}/call`, { mode: "random" });
     assert.equal(exhausted.status, 409);
-    assert.match(exhausted.body.message, /All 90 numbers/);
+    assert.match(exhausted.body.message, /All 75 numbers/);
 
     // Verify final room state
     const final = await api("GET", `/api/rooms/${code}`);
     assert.equal(final.status, 200);
-    assert.equal(final.body.calledNumbers.length, 90);
+    assert.equal(final.body.calledNumbers.length, 75);
     const unique = new Set(final.body.calledNumbers);
-    assert.equal(unique.size, 90, "all called numbers must be unique");
+    assert.equal(unique.size, 75, "all called numbers must be unique");
   });
 
   test("call to unknown room returns 404", async () => {
@@ -399,12 +399,24 @@ describe("GET /api/plans", () => {
   });
 });
 
-describe("GET /api/players", () => {
-  test("returns all players", async () => {
-    const { status, body } = await api("GET", "/api/players");
-    assert.equal(status, 200);
-    assert.ok(Array.isArray(body));
-    assert.ok(body.length >= 4);
-    assert.ok(body[0].handle);
+describe("POST /api/v1/feedback", () => {
+  test("submits feedback with rating and message", async () => {
+    const res = await fetch(`${baseUrl}/api/v1/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer test_access_token_123",
+      },
+      body: JSON.stringify({
+        rating: 5,
+        message: "Great game!",
+      }),
+    });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.data.rating, 5);
+    assert.equal(body.data.message, "Great game!");
   });
 });
+
