@@ -81,7 +81,7 @@ export default function Room() {
   const recentCalls = room.calledNumbers?.slice(-5).reverse() ?? [];
 
   return (
-    <main className="min-h-screen bg-white text-foreground">
+    <main className="min-h-screen bg-bb-bg text-bb-text">
       <Navbar />
       <section className="mx-auto max-w-[1200px] px-6 py-12">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -94,14 +94,14 @@ export default function Room() {
             callerLine={`Host ${room.hostName ?? "Host"} is calling the filmi numbers.`}
           />
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-            <h2 className="text-lg font-semibold">Room: {room.title}</h2>
-            <p className="text-sm text-muted-foreground">Code: {room.code}</p>
-            <p className="mt-4">Theme: {room.theme}</p>
-            <p className="mt-2">Host: {room.hostName}</p>
+          <div className="rounded-2xl border border-bb-border bg-bb-elevated p-6 shadow-sm">
+            <h2 className="text-lg font-semibold text-bb-text">Room: {room.title}</h2>
+            <p className="text-sm text-bb-muted">Code: {room.code}</p>
+            <p className="mt-4 text-bb-text">Theme: {room.theme}</p>
+            <p className="mt-2 text-bb-text">Host: {room.hostName}</p>
             <div className="mt-6">
               <button
-                className="rounded-lg bg-[#FF2D75] px-4 py-2 text-white"
+                className="rounded-lg bg-bb-primary px-4 py-2 text-white hover:bg-bb-primary-hover font-semibold transition-colors"
                 onClick={() => (window.location.hash = "#/")}
               >
                 Leave room

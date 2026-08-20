@@ -33,63 +33,48 @@ export function NavbarActions({
     <div className="flex items-center gap-2">
       <StarWalletPill onClick={onWalletClick} className="hidden sm:inline-flex" />
 
-      {isLoggedIn && (
-        <button
-          type="button"
-          onClick={onLogout}
-          data-testid="navbar-logout-compact"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-gray-200 bg-white text-gray-700 transition-colors hover:bg-gray-50"
-        >
-          <LogOut className="h-4 w-4 text-gray-700" />
-        </button>
-      )}
-
       {isLoggedIn ? (
         <div
           data-testid="navbar-user"
-          className="hidden items-center gap-2 rounded-xl border border-gray-200 bg-white px-2 py-1.5 text-sm font-medium text-gray-900 sm:inline-flex"
+          className="flex items-center gap-2"
         >
-          <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-gradient-to-br from-[#8B5CF6] to-[#FF2D75] text-xs font-bold text-white">
-              {getInitials(userName)}
+          <button
+            type="button"
+            onClick={onLogout}
+            data-testid="navbar-logout-compact"
+            title="Logout"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition-colors hover:bg-white/10"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
+
+          <Avatar className="h-8 w-8 cursor-pointer ring-2 ring-[#E8A93B]/40">
+            <AvatarFallback className="bg-[#E8A93B] text-xs font-extrabold text-[#1B1330]">
+              {getInitials(userName)[0] || "A"}
             </AvatarFallback>
           </Avatar>
-          <span className="text-sm text-gray-900">{userName}</span>
         </div>
       ) : (
         <button
           type="button"
           onClick={onAuthClick}
           data-testid="navbar-auth"
-          className="hidden items-center gap-1.5 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 transition-colors hover:border-gray-300 hover:bg-gray-50 sm:inline-flex"
+          className="hidden items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/10 sm:inline-flex"
         >
-          <LogIn className="h-4 w-4 text-[#FF2D75]" />
-          <span>Login / Register</span>
+          <LogIn className="h-3.5 w-3.5 text-[#E8A93B]" />
+          <span>Login</span>
         </button>
       )}
-
-      <button
-        type="button"
-        aria-label="Notifications"
-        data-testid="navbar-notifications"
-        className="relative hidden h-9 w-9 items-center justify-center rounded-lg border border-bb-border text-bb-muted transition-colors hover:bg-bb-surface hover:text-bb-text md:flex"
-      >
-        <Bell className="h-4 w-4" />
-        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-bb-primary px-1 text-[10px] font-semibold text-white">
-          3
-        </span>
-      </button>
 
       {showCreateButton && (
         <button
           type="button"
           onClick={onCreateRoom}
           data-testid="navbar-create-room"
-          className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-bb-primary px-3.5 text-[13px] font-semibold text-white transition-colors hover:bg-bb-primary-hover"
+          className="inline-flex h-9 items-center gap-1.5 rounded-full bg-[#C81D4A] px-4 text-xs font-bold text-white shadow-md shadow-[#C81D4A]/20 transition-transform hover:scale-105 active:scale-95"
         >
-          <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Create Room</span>
-          <span className="sm:hidden">Create</span>
+          <Plus className="h-4 w-4 stroke-[3]" />
+          <span>Create Room</span>
         </button>
       )}
     </div>

@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Gift, Home, Star, Users } from "lucide-react";
 import type { HowItWorksStep } from "./howItWorksData";
 
 type HowItWorksStepCardProps = {
@@ -7,43 +6,8 @@ type HowItWorksStepCardProps = {
   index: number;
 };
 
-function StepBadge({ badge }: { badge: NonNullable<HowItWorksStep["badge"]> }) {
-  if (badge.type === "stars") {
-    return (
-      <span className="inline-flex items-center gap-1.5 rounded-full bg-bb-primary/10 px-3 py-1.5 text-xs font-semibold text-bb-primary">
-        <Star className="h-3.5 w-3.5 fill-bb-gold text-bb-gold" />
-        {badge.label}
-      </span>
-    );
-  }
-
-  if (badge.type === "pricing") {
-    return (
-      <span className="inline-flex flex-wrap items-center gap-2 rounded-full bg-[#FFF8E7] px-3 py-1.5 text-xs font-semibold text-[#92400E]">
-        <span className="inline-flex items-center gap-1">
-          <Home className="h-3.5 w-3.5" />
-          Create: {badge.create}
-          <Star className="h-3 w-3 fill-bb-gold text-bb-gold" />
-        </span>
-        <span className="inline-flex items-center gap-1">
-          <Users className="h-3.5 w-3.5" />
-          Join: {badge.join}
-          <Star className="h-3 w-3 fill-bb-gold text-bb-gold" />
-        </span>
-      </span>
-    );
-  }
-
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF1F0] px-3 py-1.5 text-xs font-semibold text-[#DC2626]">
-      <Gift className="h-3.5 w-3.5" />
-      {badge.label}
-    </span>
-  );
-}
-
 export function HowItWorksStepCard({ step, index }: HowItWorksStepCardProps) {
-  const { step: stepNum, title, description, iconBg, iconColor, Icon, badge } = step;
+  const { step: stepNum, emoji, title, description, tag } = step;
 
   return (
     <motion.article
@@ -51,29 +15,27 @@ export function HowItWorksStepCard({ step, index }: HowItWorksStepCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-      className="relative z-10 flex h-full flex-col"
+      className="flex flex-col h-full"
     >
-      <div className="flex h-full flex-col rounded-2xl border border-bb-border bg-bb-elevated p-6 shadow-[0_4px_24px_rgba(0,0,0,0.05)]">
-        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-bb-primary/10 text-xs font-bold text-bb-primary">
-          {stepNum}
+      {/* Step Number Oval Badge */}
+      <span className="font-serif text-[11px] font-extrabold text-[#C58823] bg-[#FAF2E6] border border-[#E8D9C5] px-2.5 py-0.5 rounded-full w-fit mb-4">
+        {stepNum}
+      </span>
+
+      {/* Sindoor Red Squircle Icon */}
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#C81D4A] text-white shadow-md shadow-[#C81D4A]/15 mb-4">
+        <span className="text-2xl">{emoji}</span>
+      </div>
+
+      {/* Title & Description */}
+      <h3 className="font-serif text-lg font-bold text-[#1B1330]">{title}</h3>
+      <p className="mt-1.5 text-xs leading-relaxed text-[#1B1330]/70 max-w-[250px]">{description}</p>
+
+      {/* Bottom Tag Pill */}
+      <div className="mt-auto pt-5">
+        <span className="inline-flex items-center rounded-full border border-[#E8D9C5] bg-[#FAF2E6] px-3 py-1 text-[11px] font-bold text-[#C58823]">
+          {tag}
         </span>
-
-        <div className="mt-6 flex flex-1 flex-col items-center text-center">
-          <div
-            className={`flex h-20 w-20 items-center justify-center rounded-full ${iconBg}`}
-          >
-            <Icon className={`h-9 w-9 ${iconColor}`} strokeWidth={1.75} />
-          </div>
-
-          <h3 className="mt-5 text-base font-bold text-bb-text">{title}</h3>
-          <p className="mt-2 text-sm leading-relaxed text-bb-muted">{description}</p>
-        </div>
-
-        {badge && (
-          <div className="mt-5 flex justify-center">
-            <StepBadge badge={badge} />
-          </div>
-        )}
       </div>
     </motion.article>
   );

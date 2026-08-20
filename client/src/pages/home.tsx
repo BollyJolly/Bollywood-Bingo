@@ -199,7 +199,7 @@ function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-foreground">
+    <main className="min-h-screen bg-bb-bg text-bb-text">
       <Navbar onCreateRoom={openCreateRoom} />
 
       <HeroSection
@@ -228,10 +228,10 @@ function Home() {
       <SiteFooter />
 
       <Dialog open={createRoomOpen} onOpenChange={setCreateRoomOpen}>
-        <DialogContent className="border-white/10 bg-[#12081f] text-white sm:max-w-lg">
+        <DialogContent className="border-white/10 bg-[#1B1330] text-white sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Create room</DialogTitle>
-            <DialogDescription className="text-[#B9B9C5]">
+            <DialogDescription className="text-[#C9C3D7]">
               Create a new game room. The request will be sent only when you submit this form.
             </DialogDescription>
           </DialogHeader>
@@ -254,7 +254,7 @@ function Home() {
                 id="room-theme"
                 value={selectedPlaylistId}
                 onChange={(event) => setSelectedPlaylistId(event.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-[#1e1132] px-3.5 py-2.5 text-sm text-white focus:border-[#FF2D75] focus:outline-none"
+                className="w-full rounded-xl border border-white/10 bg-[#1B1330] px-3.5 py-2.5 text-sm text-white focus:border-[#C81D4A] focus:outline-none"
               >
                 {(playlists.length ? playlists : [
                   { id: "diwali-hits", name: "Diwali Hits", emoji: "🪔" },
@@ -270,7 +270,7 @@ function Home() {
                   { id: "retro-90s", name: "Retro 90s", emoji: "📼" },
                   { id: "wedding-antakshari", name: "Wedding Antakshari", emoji: "🎤" },
                 ]).map((playlist) => (
-                  <option key={playlist.id} value={playlist.id} className="bg-[#12081f] text-white">
+                  <option key={playlist.id} value={playlist.id} className="bg-[#1B1330] text-white">
                     {playlist.emoji ? `${playlist.emoji} ${playlist.name}` : playlist.name}
                   </option>
                 ))}
@@ -298,8 +298,8 @@ function Home() {
                     onClick={() => setRoomVisibility(visibility)}
                     className={`rounded-xl border px-4 py-2 text-sm font-medium capitalize transition-colors ${
                       roomVisibility === visibility
-                        ? "border-[#FF2D75] bg-[#FF2D75]/15 text-white"
-                        : "border-white/10 bg-white/5 text-[#B9B9C5]"
+                        ? "border-[#C81D4A] bg-[#C81D4A]/15 text-white"
+                        : "border-white/10 bg-white/5 text-[#C9C3D7]"
                     }`}
                   >
                     {visibility}
@@ -318,7 +318,7 @@ function Home() {
               <Button type="button" variant="outline" onClick={() => setCreateRoomOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="bg-[#FF2D75] hover:bg-[#E91E63]">
+              <Button type="submit" disabled={isSubmitting} className="bg-[#C81D4A] hover:bg-[#A6153B]">
                 {isSubmitting ? "Creating..." : "Create room"}
               </Button>
             </DialogFooter>

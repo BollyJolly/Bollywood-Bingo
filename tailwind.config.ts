@@ -12,16 +12,18 @@ export default {
       },
       colors: {
         bb: {
-          bg: "#FAFAF8",
-          surface: "#F5F5F2",
+          bg: "#FBF3E7",
+          surface: "#F5E9D7",
           elevated: "#FFFFFF",
-          primary: "#FF4D7E",
-          "primary-hover": "#E83E6D",
-          gold: "#E8B931",
-          success: "#22C55E",
-          text: "#1F2937",
-          muted: "#6B7280",
-          border: "#E7E7E4",
+          primary: "#C81D4A",
+          "primary-hover": "#A6153B",
+          gold: "#E8A93B",
+          success: "#0B6E64",
+          text: "#1B1330",
+          muted: "#6E627C",
+          border: "#EADBCC",
+          ink: "#1B1330",
+          cream: "#FBF3E7",
         },
         // Flat / base colors (regular buttons)
         background: "hsl(var(--background) / <alpha-value>)",
@@ -88,9 +90,9 @@ export default {
           border: "var(--sidebar-accent-border)"
         },
         status: {
-          online: "rgb(34 197 94)",
-          away: "rgb(245 158 11)",
-          busy: "rgb(239 68 68)",
+          online: "rgb(11 110 100)",
+          away: "rgb(232 169 59)",
+          busy: "rgb(200 29 74)",
           offline: "rgb(156 163 175)",
         },
       },
@@ -115,11 +117,11 @@ export default {
         "hero-pulse-number": {
           "0%, 100%": {
             transform: "scale(1)",
-            boxShadow: "0 4px 20px rgba(255, 77, 126, 0.2)",
+            boxShadow: "0 4px 20px rgba(200, 29, 74, 0.2)",
           },
           "50%": {
             transform: "scale(1.04)",
-            boxShadow: "0 6px 24px rgba(255, 77, 126, 0.28)",
+            boxShadow: "0 6px 24px rgba(200, 29, 74, 0.28)",
           },
         },
         "hero-glow-border": {

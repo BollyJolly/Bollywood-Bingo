@@ -1,3 +1,5 @@
+import { BollyBingoLogoIcon } from "@/components/common/BollyBingoLogoIcon";
+
 export function NavbarLogo() {
   return (
     <a
@@ -9,14 +11,9 @@ export function NavbarLogo() {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }}
     >
-      <div
-        className="flex h-8 w-8 items-center justify-center rounded-lg bg-bb-primary shadow-sm transition-transform duration-200 group-hover:scale-[1.02]"
-        aria-hidden="true"
-      >
-        <span className="text-sm font-bold text-white">B</span>
-      </div>
-      <span className="text-[17px] font-semibold tracking-tight text-bb-text">
-        Bolly<span className="text-bb-primary">Bingo</span>
+      <BollyBingoLogoIcon className="h-9 w-9 transition-transform duration-200 group-hover:scale-105" />
+      <span className="font-serif text-xl font-bold tracking-tight text-white">
+        Bolly<span className="text-[#E8A93B]">Bingo</span>
       </span>
     </a>
   );

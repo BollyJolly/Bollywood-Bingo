@@ -117,13 +117,13 @@ export function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                       className={cn(
                         "h-7 w-7 transition-colors",
                         (hoverRating || rating) >= star
-                          ? "fill-amber-400 text-amber-400"
+                          ? "fill-bb-gold text-bb-gold"
                           : "text-bb-border"
                       )}
                     />
                   </button>
                 ))}
-                <span className="ml-2 text-sm font-bold text-amber-500">
+                <span className="ml-2 text-sm font-bold text-bb-gold">
                   {hoverRating || rating} / 5
                 </span>
               </div>

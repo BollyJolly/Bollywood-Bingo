@@ -25,10 +25,10 @@ export function NavbarNavLink({ label, href, isActive, onClick, testId }: Navbar
       onClick={handleClick}
       data-testid={testId}
       className={cn(
-        "rounded-lg px-3 py-2 text-[13px] font-medium transition-colors duration-150",
+        "rounded-lg px-4 py-2 text-sm font-medium transition-colors duration-150",
         isActive
-          ? "bg-bb-primary/10 text-bb-primary"
-          : "text-bb-muted hover:bg-bb-surface hover:text-bb-text",
+          ? "text-[#E8A93B] font-semibold"
+          : "text-white/80 hover:text-[#E8A93B]",
       )}
     >
       {label}

@@ -56,7 +56,7 @@ export function CurrentSong() {
         {currentSong ? (
           <div className="mt-2.5 flex items-center gap-3">
             <motion.div
-              animate={{ boxShadow: ["0 0 0 0 rgba(255,77,126,0.3)", "0 0 0 8px rgba(255,77,126,0)", "0 0 0 0 rgba(255,77,126,0)"] }}
+              animate={{ boxShadow: ["0 0 0 0 rgba(200,29,74,0.3)", "0 0 0 8px rgba(200,29,74,0)", "0 0 0 0 rgba(200,29,74,0)"] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-bb-primary text-lg font-bold text-white shadow-md"
             >
@@ -83,7 +83,7 @@ export function CurrentSong() {
           type="button"
           onClick={handleStartClick}
           disabled={!isWaiting && !canCallNext}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-bb-primary py-2.5 text-xs font-bold text-white shadow-[0_2px_12px_rgba(255,77,126,0.35)] transition-all hover:bg-bb-primary-hover hover:shadow-[0_4px_16px_rgba(255,77,126,0.4)] disabled:bg-[#FFD6E5] disabled:text-bb-primary/60 disabled:shadow-none"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-bb-primary py-2.5 text-xs font-bold text-white shadow-[0_2px_12px_rgba(200,29,74,0.35)] transition-all hover:bg-bb-primary-hover hover:shadow-[0_4px_16px_rgba(200,29,74,0.4)] disabled:bg-[#F3C4D0] disabled:text-bb-primary/60 disabled:shadow-none"
         >
           {isWaiting ? (
             <>

@@ -5,24 +5,22 @@ type CategoryRowProps = {
   categories: Category[];
   rowOffset?: number;
   onViewPlaylist: () => void;
-  onPlayBingo: () => void;
+  onPlayBingo?: () => void;
 };
 
 export function CategoryRow({
   categories,
   rowOffset = 0,
   onViewPlaylist,
-  onPlayBingo,
 }: CategoryRowProps) {
   return (
-    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {categories.map((category, index) => (
         <CategoryCard
           key={category.id}
           category={category}
           index={rowOffset + index}
           onViewPlaylist={onViewPlaylist}
-          onPlayBingo={onPlayBingo}
         />
       ))}
     </div>

@@ -1,50 +1,49 @@
-import { Sparkles } from "lucide-react";
-import { HowItWorksFeatures } from "./HowItWorksFeatures";
 import { HowItWorksStepCard } from "./HowItWorksStepCard";
-import { howItWorksFeatures, howItWorksSteps } from "./howItWorksData";
+import { howItWorksSteps } from "./howItWorksData";
 
 export function HowItWorksSection() {
   return (
     <section
       id="how-it-works"
-      className="bg-bb-surface px-5 py-20 sm:px-8 lg:px-12 lg:py-24"
+      className="bg-[#FBF3E7] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24 text-[#1B1330]"
       data-testid="section-how-it-works"
     >
-      <div className="mx-auto max-w-[1400px]">
-        <div className="mb-14 text-center">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-bb-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-bb-primary">
-            <Sparkles className="h-3.5 w-3.5 text-bb-gold" />
-            Easy to Play
+      <div className="mx-auto max-w-[1240px]">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#C81D4A]">
+            EASY TO PLAY
           </span>
-          <h2 className="mt-5 text-3xl font-bold tracking-tight text-bb-text sm:text-4xl">
-            How It Works
+
+          <h2 className="mt-2 font-serif text-3xl font-extrabold leading-tight text-[#1B1330] sm:text-4xl lg:text-5xl">
+            Four steps to your first full house
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-base text-bb-muted">
-            Start playing Bollywood Bingo in less than a minute.
+
+          <p className="mt-3 text-sm text-[#1B1330]/70 leading-relaxed max-w-md mx-auto">
+            From sign-up to shouting &quot;Bingo!&quot; in under a minute.
           </p>
         </div>
 
-        <div className="relative">
-          <div
-            className="absolute left-[12%] right-[12%] top-[4.5rem] hidden h-0.5 bg-bb-primary/25 lg:block"
-            aria-hidden="true"
-          />
-          <div className="relative grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4 xl:gap-6">
-            {howItWorksSteps.map((step, index) => (
-              <div key={step.id} className="relative">
-                {index < howItWorksSteps.length - 1 && (
-                  <span
-                    className="absolute -right-3 top-[4.25rem] z-0 hidden h-2.5 w-2.5 rounded-full bg-bb-primary xl:block"
-                    aria-hidden="true"
-                  />
-                )}
-                <HowItWorksStepCard step={step} index={index} />
-              </div>
-            ))}
-          </div>
+        {/* Filmstrip / Dashed Line Track */}
+        <div className="my-10 flex w-full items-center justify-between overflow-hidden opacity-90" aria-hidden="true">
+          {Array.from({ length: 44 }).map((_, i) => (
+            <span key={i} className="h-3.5 w-1.5 shrink-0 rounded-[2px] bg-[#1B1330]" />
+          ))}
         </div>
 
-        <HowItWorksFeatures features={howItWorksFeatures} />
+        {/* 4 Columns Grid with Vertical Dividers */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
+          {howItWorksSteps.map((step, index) => (
+            <div
+              key={step.id}
+              className={`flex flex-col h-full ${
+                index > 0 ? "lg:border-l lg:border-[#E8D9C5] lg:pl-8" : ""
+              } ${index < howItWorksSteps.length - 1 ? "lg:pr-8" : ""}`}
+            >
+              <HowItWorksStepCard step={step} index={index} />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

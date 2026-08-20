@@ -31,8 +31,8 @@ export const heroSlides: HeroSlideData[] = [
       { label: "Play Now", target: "live-rooms", variant: "primary" },
       { label: "Browse Rooms", target: "live-rooms", variant: "secondary" },
     ],
-    background: "linear-gradient(160deg, #FAFAF8 0%, #FFF5F8 50%, #FFF9F6 100%)",
-    glow: "radial-gradient(ellipse 55% 45% at 78% 35%, rgba(255,77,126,0.08), transparent)",
+    background: "linear-gradient(160deg, #FBF3E7 0%, #F8ECE0 50%, #F5E5D5 100%)",
+    glow: "radial-gradient(ellipse 55% 45% at 78% 35%, rgba(200,29,74,0.1), transparent)",
     visual: "bingo",
   },
   {
@@ -45,8 +45,8 @@ export const heroSlides: HeroSlideData[] = [
       { label: "Explore Categories", target: "categories", variant: "primary" },
       { label: "View Playlist", target: "featured-playlists", variant: "secondary" },
     ],
-    background: "linear-gradient(160deg, #FAFAF8 0%, #FFF8F5 50%, #FFF5F8 100%)",
-    glow: "radial-gradient(ellipse 50% 40% at 72% 38%, rgba(255,77,126,0.06), transparent)",
+    background: "linear-gradient(160deg, #FBF3E7 0%, #F6EDE3 50%, #F4E8DB 100%)",
+    glow: "radial-gradient(ellipse 50% 40% at 72% 38%, rgba(200,29,74,0.08), transparent)",
     visual: "playlist",
   },
   {
@@ -60,8 +60,8 @@ export const heroSlides: HeroSlideData[] = [
       { label: "Create Room", target: "live-rooms", variant: "primary" },
       { label: "Learn More", target: "star-wallet", variant: "secondary" },
     ],
-    background: "linear-gradient(160deg, #FAFAF8 0%, #FFFBF0 50%, #FFF8F5 100%)",
-    glow: "radial-gradient(ellipse 50% 40% at 74% 36%, rgba(232,185,49,0.07), transparent)",
+    background: "linear-gradient(160deg, #FBF3E7 0%, #FAF0DF 50%, #F6E6CE 100%)",
+    glow: "radial-gradient(ellipse 50% 40% at 74% 36%, rgba(232,169,59,0.12), transparent)",
     visual: "wallet",
   },
   {
@@ -75,8 +75,8 @@ export const heroSlides: HeroSlideData[] = [
       { label: "Join Live Game", target: "live-rooms", variant: "primary" },
       { label: "Watch Demo", target: "cta", variant: "secondary" },
     ],
-    background: "linear-gradient(160deg, #FAFAF8 0%, #FFF5F8 45%, #F8FAFF 100%)",
-    glow: "radial-gradient(ellipse 55% 45% at 70% 42%, rgba(255,77,126,0.07), transparent)",
+    background: "linear-gradient(160deg, #FBF3E7 0%, #EBF4F3 45%, #E3F0EE 100%)",
+    glow: "radial-gradient(ellipse 55% 45% at 70% 42%, rgba(11,110,100,0.1), transparent)",
     visual: "lobby",
   },
 ];
