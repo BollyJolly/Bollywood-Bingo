@@ -19,6 +19,7 @@ export const gameRooms = sqliteTable("game_rooms", {
   code: text("code").notNull().unique(),
   title: text("title").notNull(),
   theme: text("theme").notNull(),
+  playlistId: text("playlist_id").notNull().default("bollywood-classics"),
   visibility: text("visibility").notNull(),
   hostName: text("host_name").notNull(),
   hostMode: text("host_mode").notNull().default("random"),
@@ -65,13 +66,13 @@ export const roomCodeSchema = z
   .transform((value) => value.toUpperCase());
 
 export const TAMBOLA_MIN = 1;
-export const TAMBOLA_MAX = 90;
+export const TAMBOLA_MAX = 75;
 
 export const callNumberSchema = z
   .object({
     mode: hostModeSchema,
     number: z
-      .number({ invalid_type_error: "Number must be an integer between 1 and 90" })
+      .number({ invalid_type_error: "Number must be an integer between 1 and 75" })
       .int("Number must be a whole number")
       .min(TAMBOLA_MIN, `Number must be between ${TAMBOLA_MIN} and ${TAMBOLA_MAX}`)
       .max(TAMBOLA_MAX, `Number must be between ${TAMBOLA_MIN} and ${TAMBOLA_MAX}`)
@@ -82,7 +83,7 @@ export const callNumberSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["number"],
-        message: "Manual mode requires a number between 1 and 90",
+        message: "Manual mode requires a number between 1 and 75",
       });
     }
   });
@@ -91,6 +92,7 @@ export const createRoomSchema = z.object({
   code: roomCodeSchema.optional(),
   title: z.string().trim().min(2, "Title must be at least 2 characters").max(60, "Title is too long"),
   theme: z.string().trim().min(2, "Theme must be at least 2 characters").max(120, "Theme is too long"),
+  playlistId: z.string().trim().optional(),
   visibility: roomVisibilitySchema,
   hostName: z.string().trim().min(2, "Host name must be at least 2 characters").max(40, "Host name is too long"),
   hostMode: hostModeSchema.default("random"),

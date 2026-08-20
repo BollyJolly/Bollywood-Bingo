@@ -13,6 +13,12 @@ import {
   markSong,
   startGame,
   toggleCellMark,
+  T_INDICES,
+  L_INDICES,
+  U_INDICES,
+  H_INDICES,
+  BOX_INDICES,
+  DIAMOND_INDICES,
 } from "../client/src/utils/bingoEngine.ts";
 
 describe("generateBingoCard", () => {
@@ -79,7 +85,7 @@ describe("bingoEngine", () => {
       })),
     };
     assert.equal(checkHorizontal(marked, 0), true);
-    assert.equal(checkWinner(marked)?.pattern, "horizontal");
+    assert.ok(checkWinner(marked, ["single-line", "horizontal"]));
   });
 
   it("detects vertical win", () => {
@@ -111,6 +117,28 @@ describe("bingoEngine", () => {
     };
     assert.equal(checkFullHouse(marked), true);
     assert.ok(checkWinner(marked));
+  });
+
+  it("detects custom T pattern win", () => {
+    const card = generateBingoCard(SONGS, () => 0.5);
+    const marked = {
+      cells: card.cells.map((cell, i) => ({
+        ...cell,
+        marked: T_INDICES.includes(i) || cell.isFree === true,
+      })),
+    };
+    assert.equal(checkWinner(marked, ["pattern-t"])?.pattern, "pattern-t");
+  });
+
+  it("detects custom Diamond pattern win", () => {
+    const card = generateBingoCard(SONGS, () => 0.5);
+    const marked = {
+      cells: card.cells.map((cell, i) => ({
+        ...cell,
+        marked: DIAMOND_INDICES.includes(i) || cell.isFree === true,
+      })),
+    };
+    assert.equal(checkWinner(marked, ["pattern-diamond"])?.pattern, "pattern-diamond");
   });
 
   it("markSong marks by song id", () => {

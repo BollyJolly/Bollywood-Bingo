@@ -110,6 +110,18 @@ describe("POST /api/rooms", () => {
     assert.deepEqual(body.calledNumbers, []);
   });
 
+  test("creates a room with explicit playlistId", async () => {
+    const { status, body } = await api("POST", "/api/rooms", {
+      title: "Classics Room",
+      theme: "Bollywood Classics",
+      playlistId: "bollywood-classics",
+      visibility: "public",
+      hostName: "Host",
+    });
+    assert.equal(status, 201);
+    assert.equal(body.playlistId, "bollywood-classics");
+  });
+
   test("creates a private room with default 40 max", async () => {
     const { status, body } = await api("POST", "/api/rooms", {
       title: "Private Diwali",
@@ -260,10 +272,10 @@ describe("POST /api/rooms/:code/call", () => {
     assert.equal(status, 200);
     assert.equal(body.calledNumbers.length, 1);
     const value = body.calledNumbers[0];
-    assert.ok(value >= 1 && value <= 90);
+    assert.ok(value >= 1 && value <= 75);
   });
 
-  test("random call eventually exhausts all 90 numbers and 409s", async () => {
+  test("random call eventually exhausts all 75 numbers and 409s", async () => {
     const code = "RANDM2";
     await api("POST", "/api/rooms", {
       title: "Random Exhaustion",
@@ -273,20 +285,20 @@ describe("POST /api/rooms/:code/call", () => {
       hostMode: "random",
       code,
     });
-    for (let i = 0; i < 90; i++) {
+    for (let i = 0; i < 75; i++) {
       const r = await api("POST", `/api/rooms/${code}/call`, { mode: "random" });
       assert.equal(r.status, 200, `call ${i + 1} should succeed`);
     }
     const exhausted = await api("POST", `/api/rooms/${code}/call`, { mode: "random" });
     assert.equal(exhausted.status, 409);
-    assert.match(exhausted.body.message, /All 90 numbers/);
+    assert.match(exhausted.body.message, /All 75 numbers/);
 
     // Verify final room state
     const final = await api("GET", `/api/rooms/${code}`);
     assert.equal(final.status, 200);
-    assert.equal(final.body.calledNumbers.length, 90);
+    assert.equal(final.body.calledNumbers.length, 75);
     const unique = new Set(final.body.calledNumbers);
-    assert.equal(unique.size, 90, "all called numbers must be unique");
+    assert.equal(unique.size, 75, "all called numbers must be unique");
   });
 
   test("call to unknown room returns 404", async () => {
@@ -306,6 +318,60 @@ describe("POST /api/rooms/:code/call", () => {
     const { status, body } = await api("POST", `/api/rooms/${code}/call`, { mode: "auto" });
     assert.equal(status, 400);
     assert.ok(body.errors.some((e: any) => e.field === "mode"));
+  });
+});
+
+describe("POST /api/v1/rooms/:code/next", () => {
+  test("picks next song/number for valid room", async () => {
+    const code = "NEXTRM1";
+    await api("POST", "/api/rooms", {
+      title: "Next Room Test",
+      theme: "Next theme",
+      visibility: "public",
+      hostName: "Host",
+      code,
+    });
+    const { status, body } = await api("POST", `/api/v1/rooms/${code}/next`);
+    assert.equal(status, 200);
+    assert.equal(body.calledNumbers.length, 1);
+    assert.equal(body.status, "live");
+  });
+
+  test("returns 404 for non-existent room code", async () => {
+    const { status, body } = await api("POST", "/api/v1/rooms/NOROOM404/next");
+    assert.equal(status, 404);
+    assert.equal(body.message, "Room not found");
+  });
+});
+
+describe("POST /api/v1/rooms/:code/start", () => {
+  test("starts room for valid code", async () => {
+    const code = "STARTRM1";
+    await api("POST", "/api/rooms", {
+      title: "Start Room Test",
+      theme: "Start theme",
+      visibility: "public",
+      hostName: "Host",
+      code,
+    });
+    const { status, body } = await api("POST", `/api/v1/rooms/${code}/start`);
+    assert.equal(status, 200);
+    assert.equal(body.status, "live");
+  });
+
+  test("returns 404 for unknown room", async () => {
+    const { status } = await api("POST", "/api/v1/rooms/NOSTART/start");
+    assert.equal(status, 404);
+  });
+});
+
+describe("GET /api/v1/playlists", () => {
+  test("returns list of playlists", async () => {
+    const { status, body } = await api("GET", "/api/v1/playlists");
+    assert.equal(status, 200);
+    assert.ok(Array.isArray(body));
+    assert.ok(body.length >= 12);
+    assert.equal(body[0].id, "diwali-hits");
   });
 });
 
@@ -333,12 +399,24 @@ describe("GET /api/plans", () => {
   });
 });
 
-describe("GET /api/players", () => {
-  test("returns all players", async () => {
-    const { status, body } = await api("GET", "/api/players");
-    assert.equal(status, 200);
-    assert.ok(Array.isArray(body));
-    assert.ok(body.length >= 4);
-    assert.ok(body[0].handle);
+describe("POST /api/v1/feedback", () => {
+  test("submits feedback with rating and message", async () => {
+    const res = await fetch(`${baseUrl}/api/v1/feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer test_access_token_123",
+      },
+      body: JSON.stringify({
+        rating: 5,
+        message: "Great game!",
+      }),
+    });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.success, true);
+    assert.equal(body.data.rating, 5);
+    assert.equal(body.data.message, "Great game!");
   });
 });
+

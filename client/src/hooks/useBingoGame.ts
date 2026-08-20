@@ -13,6 +13,7 @@ export function useBingoGame() {
   const winningCellIndices = useBingoStore((s) => s.winningCellIndices);
 
   const initGame = useBingoStore((s) => s.initGame);
+  const fetchRoom = useBingoStore((s) => s.fetchRoom);
   const startGame = useBingoStore((s) => s.startGame);
   const callNextSong = useBingoStore((s) => s.callNextSong);
   const toggleCell = useBingoStore((s) => s.toggleCell);
@@ -36,6 +37,7 @@ export function useBingoGame() {
     isWaiting: gameState.status === "waiting",
     isFinished: gameState.status === "finished",
     initGame,
+    fetchRoom,
     startGame,
     callNextSong,
     toggleCell,

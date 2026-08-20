@@ -24,6 +24,7 @@ sqlite.exec(`
     code TEXT NOT NULL UNIQUE,
     title TEXT NOT NULL,
     theme TEXT NOT NULL,
+    playlist_id TEXT NOT NULL DEFAULT 'bollywood-classics',
     visibility TEXT NOT NULL,
     host_name TEXT NOT NULL,
     host_mode TEXT NOT NULL DEFAULT 'random',
@@ -42,6 +43,12 @@ sqlite.exec(`
     benefits TEXT NOT NULL
   );
 `);
+
+try {
+  sqlite.exec("ALTER TABLE game_rooms ADD COLUMN playlist_id TEXT NOT NULL DEFAULT 'bollywood-classics'");
+} catch {
+  /* column already exists */
+}
 
 export const db = drizzle(sqlite);
 

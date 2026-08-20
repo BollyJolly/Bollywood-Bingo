@@ -18,27 +18,34 @@ export function BingoCell({
   onToggle,
 }: BingoCellProps) {
   const isFree = cell.isFree;
+  const canToggle = isFree ? false : (cell.marked || Boolean(isCalled));
 
   return (
     <motion.button
       type="button"
-      whileHover={!isFree && !cell.marked ? { scale: 1.06 } : undefined}
-      whileTap={!isFree ? { scale: 0.92 } : undefined}
-      onClick={onToggle}
-      disabled={isFree}
-      title={isFree ? "FREE" : `${cell.id} — ${cell.title}`}
+      whileHover={canToggle && !isFree && !cell.marked ? { scale: 1.06 } : undefined}
+      whileTap={canToggle && !isFree ? { scale: 0.92 } : undefined}
+      onClick={canToggle ? onToggle : undefined}
+      disabled={!canToggle}
+      title={
+        isFree
+          ? "FREE"
+          : !isCalled && !cell.marked
+            ? `Number ${cell.id} has not been called yet`
+            : `${cell.id} — ${cell.title}`
+      }
       className={cn(
         "relative flex h-9 w-full items-center justify-center rounded-xl text-[11px] font-bold transition-all duration-200",
         isFree && "cursor-default bg-bb-gold text-bb-bg shadow-sm",
         !isFree &&
           !cell.marked &&
           !isCalled &&
-          "border border-bb-border bg-bb-elevated text-bb-text shadow-sm hover:border-bb-primary hover:shadow-md",
+          "cursor-not-allowed border border-bb-border/50 bg-bb-elevated/40 text-bb-muted/50 shadow-none opacity-60",
         !isFree &&
           !cell.marked &&
           isCalled &&
-          "border-2 border-bb-primary bg-bb-primary/10 text-bb-primary shadow-[0_0_0_2px_rgba(255,77,126,0.15)]",
-        !isFree && cell.marked && "bg-bb-primary text-white shadow-md",
+          "cursor-pointer border-2 border-bb-primary bg-bb-primary/10 text-bb-primary shadow-[0_0_0_2px_rgba(255,77,126,0.15)] hover:border-bb-primary hover:shadow-md",
+        !isFree && cell.marked && "cursor-pointer bg-bb-primary text-white shadow-md",
         isCurrent && !cell.marked && "animate-pulse",
         isWinning && "ring-2 ring-bb-success ring-offset-1",
       )}
