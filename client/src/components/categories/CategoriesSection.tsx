@@ -15,11 +15,36 @@ export function CategoriesSection() {
   });
 
   const allCategories = useMemo(() => {
-    const combined = [...defaultCategories, ...defaultCategoriesRowTwo];
+    const fallbackCombined = [...defaultCategories, ...defaultCategoriesRowTwo];
     if (!fetchedPlaylists || !fetchedPlaylists.length) {
-      return combined;
+      return fallbackCombined;
     }
-    return combined;
+
+    return fetchedPlaylists.map((p, index) => {
+      const match = fallbackCombined.find(
+        (c) =>
+          c.id.toLowerCase() === (p.id || "").toLowerCase() ||
+          c.name.toLowerCase() === (p.name || (p as any).title || "").toLowerCase()
+      ) || fallbackCombined[index % fallbackCombined.length];
+
+      let formattedSongCount = match.songCount;
+      if (p.songCount !== undefined && p.songCount !== null) {
+        formattedSongCount = typeof p.songCount === "number" ? `${p.songCount} Songs` : String(p.songCount);
+      } else if (Array.isArray((p as any).songs)) {
+        formattedSongCount = `${(p as any).songs.length} Songs`;
+      }
+
+      return {
+        id: p.id || match.id,
+        emoji: p.emoji || match.emoji || "🎵",
+        name: p.name || (p as any).title || match.name,
+        songCount: formattedSongCount,
+        badge: p.badge || match.badge || "Playlist Ready",
+        filterTag: (p as any).filterTag || match.filterTag || "Bollywood",
+        gradient: (p as any).gradient || match.gradient,
+        Icon: (p as any).Icon || match.Icon,
+      };
+    });
   }, [fetchedPlaylists]);
 
   const filteredCategories = useMemo(() => {

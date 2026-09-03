@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { type GameRoom } from "@/components/game-rooms/gameRoomsData";
 
 const bollywoodCallerLines: Record<number, string> = {
@@ -39,22 +40,36 @@ function callerLineFor(number?: number) {
   return bollywoodCallerLines[number] ?? `Filmi call for number ${number}. Mark it if it is on your ticket.`;
 }
 
-function inferEmoji(room: { title?: string; theme?: string }) {
-  const text = `${room.title ?? ""} ${room.theme ?? ""}`.toLowerCase();
+function formatPlaylistName(id?: string) {
+  if (!id) return "Bollywood Classics";
+  return id
+    .split(/[-_]+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+function inferEmoji(room: any) {
+  const text = `${room?.title ?? ""} ${room?.name ?? ""} ${room?.theme ?? ""} ${room?.playlistId ?? ""}`.toLowerCase();
   if (text.includes("diwali")) return "🪔";
   if (text.includes("sangeet")) return "🎵";
   if (text.includes("punjabi")) return "🥁";
-  if (text.includes("ladies")) return "👑";
+  if (text.includes("ladies") || text.includes("kitty")) return "👑";
+  if (text.includes("garba")) return "🪩";
+  if (text.includes("romantic")) return "💕";
   return "🎬";
 }
 
-function inferCategory(room: { title?: string; theme?: string; category?: string }): GameRoom["category"] {
-  const explicit = room.category?.toLowerCase();
-  if (explicit === "diwali" || explicit === "sangeet" || explicit === "punjabi" || explicit === "ladies" || explicit === "bollywood") {
-    return explicit;
+function inferCategory(room: any): GameRoom["category"] {
+  const explicit = (room?.category || room?.playlistId)?.toLowerCase();
+  if (explicit) {
+    if (explicit.includes("diwali")) return "diwali";
+    if (explicit.includes("sangeet")) return "sangeet";
+    if (explicit.includes("punjabi")) return "punjabi";
+    if (explicit.includes("ladies") || explicit.includes("kitty")) return "ladies";
+    if (explicit.includes("bollywood") || explicit.includes("classics") || explicit.includes("retro")) return "bollywood";
   }
 
-  const text = `${room.title ?? ""} ${room.theme ?? ""}`.toLowerCase();
+  const text = `${room?.title ?? ""} ${room?.name ?? ""} ${room?.theme ?? ""}`.toLowerCase();
   if (text.includes("diwali")) return "diwali";
   if (text.includes("sangeet")) return "sangeet";
   if (text.includes("punjabi")) return "punjabi";
@@ -63,28 +78,41 @@ function inferCategory(room: { title?: string; theme?: string; category?: string
 }
 
 function toGameRoom(room: Awaited<ReturnType<typeof getRooms>>[number]): GameRoom {
-  const normalizedTitle = room?.title ?? (room as any)?.roomTitle ?? (room as any)?.name ?? "Live Room";
-  const normalizedTheme = room?.theme ?? (room as any)?.roomTheme ?? "Bollywood Classics";
-  const normalizedHost = room?.hostName ?? (room as any)?.host_name ?? (room as any)?.host ?? "Host";
-  const normalizedPlayerCount = Number((room as any)?.playerCount ?? (room as any)?.player_count ?? 0);
-  const normalizedMaxPlayers = Number((room as any)?.maxPlayers ?? (room as any)?.max_players ?? 0);
-  const normalizedStatus = (room?.status ?? (room as any)?.roomStatus ?? "waiting") as GameRoom["status"];
+  const r = room as any;
+  const rawCode = r?.code || r?.id || "ROOM";
+  const formattedPlaylist = formatPlaylistName(r?.playlistId);
+  const normalizedTitle = r?.title || r?.name || (r?.playlistId ? formattedPlaylist : `Room ${rawCode}`);
+  const normalizedTheme = r?.theme || formattedPlaylist || "Bollywood Classics";
+  const normalizedHost = r?.hostName || r?.host || "Host";
+
+  const playerCountFromIds = Array.isArray(r?.playerIds) ? r.playerIds.length : undefined;
+  const rawPlayerCount = playerCountFromIds ?? Number(r?.playerCount ?? r?.player_count ?? 1);
+  const normalizedPlayerCount = Number.isFinite(rawPlayerCount) && rawPlayerCount > 0 ? rawPlayerCount : 1;
+
+  const rawMaxPlayers = Number(r?.maxPlayers ?? r?.max_players ?? 100);
+  const normalizedMaxPlayers = Number.isFinite(rawMaxPlayers) && rawMaxPlayers > 0 ? rawMaxPlayers : 100;
+
+  let normalizedStatus: GameRoom["status"] = "waiting";
+  if (r?.status === "live" || r?.status === "active" || (Array.isArray(r?.calledNumbers) && r.calledNumbers.length > 0)) {
+    normalizedStatus = "live";
+  }
+
   return {
-    id: room?.code ?? (room as any)?.roomCode ?? `${normalizedTitle}-${Math.random().toString(36).slice(2, 8)}`,
-    emoji: inferEmoji(room),
+    id: rawCode,
+    emoji: inferEmoji(r),
     name: normalizedTitle,
     theme: normalizedTheme,
-    category: inferCategory(room),
-    playerCount: Number.isFinite(normalizedPlayerCount) ? normalizedPlayerCount : 0,
-    maxPlayers: Number.isFinite(normalizedMaxPlayers) ? normalizedMaxPlayers : 0,
-    entryFee: 5,
+    category: inferCategory(r),
+    playerCount: normalizedPlayerCount,
+    maxPlayers: normalizedMaxPlayers,
+    entryFee: Number(r?.entryFee ?? 5),
     hostName: normalizedHost,
     hostInitials: normalizedHost
       .trim()
       .split(/\s+/)
       .filter(Boolean)
       .slice(0, 2)
-      .map((part) => part[0]?.toUpperCase() ?? "")
+      .map((part: string) => part[0]?.toUpperCase() ?? "")
       .join("") || "BB",
     status: normalizedStatus,
   };
@@ -250,31 +278,38 @@ function Home() {
 
             <div className="space-y-2">
               <Label htmlFor="room-theme">Theme</Label>
-              <select
-                id="room-theme"
-                value={selectedPlaylistId}
-                onChange={(event) => setSelectedPlaylistId(event.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-[#1B1330] px-3.5 py-2.5 text-sm text-white focus:border-[#C81D4A] focus:outline-none"
-              >
-                {(playlists.length ? playlists : [
-                  { id: "diwali-hits", name: "Diwali Hits", emoji: "🪔" },
-                  { id: "sangeet-songs", name: "Sangeet Songs", emoji: "🎵" },
-                  { id: "ladies-club", name: "Ladies Club", emoji: "👑" },
-                  { id: "bollywood-classics", name: "Bollywood Classics", emoji: "🎬" },
-                  { id: "dance-masala", name: "Dance Masala", emoji: "🕺" },
-                  { id: "punjabi-tadka", name: "Punjabi Tadka", emoji: "🥁" },
-                  { id: "romantic-hits", name: "Romantic Hits", emoji: "💕" },
-                  { id: "garba-night", name: "Garba Night", emoji: "🪩" },
-                  { id: "kitty-party", name: "Kitty Party", emoji: "☕" },
-                  { id: "holi-colors", name: "Holi Colors", emoji: "🎨" },
-                  { id: "retro-90s", name: "Retro 90s", emoji: "📼" },
-                  { id: "wedding-antakshari", name: "Wedding Antakshari", emoji: "🎤" },
-                ]).map((playlist) => (
-                  <option key={playlist.id} value={playlist.id} className="bg-[#1B1330] text-white">
-                    {playlist.emoji ? `${playlist.emoji} ${playlist.name}` : playlist.name}
-                  </option>
-                ))}
-              </select>
+              <Select value={selectedPlaylistId} onValueChange={setSelectedPlaylistId}>
+                <SelectTrigger
+                  id="room-theme"
+                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white focus:border-[#C81D4A] focus:ring-0 focus:ring-offset-0 h-auto"
+                >
+                  <SelectValue placeholder="Select a theme" />
+                </SelectTrigger>
+                <SelectContent className="border border-white/20 bg-[#281B45] text-white shadow-2xl rounded-xl p-1">
+                  {(playlists.length ? playlists : [
+                    { id: "diwali-hits", name: "Diwali Hits", emoji: "🪔" },
+                    { id: "sangeet-songs", name: "Sangeet Songs", emoji: "🎵" },
+                    { id: "ladies-club", name: "Ladies Club", emoji: "👑" },
+                    { id: "bollywood-classics", name: "Bollywood Classics", emoji: "🎬" },
+                    { id: "dance-masala", name: "Dance Masala", emoji: "🕺" },
+                    { id: "punjabi-tadka", name: "Punjabi Tadka", emoji: "🥁" },
+                    { id: "romantic-hits", name: "Romantic Hits", emoji: "💕" },
+                    { id: "garba-night", name: "Garba Night", emoji: "🪩" },
+                    { id: "kitty-party", name: "Kitty Party", emoji: "☕" },
+                    { id: "holi-colors", name: "Holi Colors", emoji: "🎨" },
+                    { id: "retro-90s", name: "Retro 90s", emoji: "📼" },
+                    { id: "wedding-antakshari", name: "Wedding Antakshari", emoji: "🎤" },
+                  ]).map((playlist) => (
+                    <SelectItem
+                      key={playlist.id}
+                      value={playlist.id}
+                      className="focus:bg-[#C81D4A]/30 focus:text-white hover:bg-[#C81D4A]/30 cursor-pointer rounded-lg text-white font-medium my-0.5 px-3 py-2"
+                    >
+                      {playlist.emoji ? `${playlist.emoji} ${playlist.name}` : playlist.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -314,7 +349,7 @@ function Home() {
               </p>
             ) : null}
 
-            <DialogFooter>
+            <DialogFooter className="flex flex-row items-center justify-center sm:justify-center gap-3 pt-2">
               <Button type="button" variant="outline" onClick={() => setCreateRoomOpen(false)}>
                 Cancel
               </Button>

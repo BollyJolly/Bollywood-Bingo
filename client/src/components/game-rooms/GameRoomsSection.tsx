@@ -27,10 +27,10 @@ export function GameRoomsSection({ onCreateRoom, onJoinRoom, rooms }: GameRoomsS
       if (!matchesSearch) return false;
 
       if (statusFilter === "live") {
-        if (room.status !== "live" || room.playerCount >= room.maxPlayers) return false;
+        if (room.status !== "live" || (room.maxPlayers > 0 && room.playerCount > room.maxPlayers)) return false;
       }
       if (statusFilter === "waiting") {
-        if (room.status !== "waiting" || room.playerCount >= room.maxPlayers) return false;
+        if (room.status !== "waiting" || (room.maxPlayers > 0 && room.playerCount > room.maxPlayers)) return false;
       }
       if (categoryFilter !== "all" && room.category !== categoryFilter) return false;
 
