@@ -1,9 +1,8 @@
 import {
   Gift,
-  Home,
   Music2,
   Shield,
-  Star,
+  Ticket,
   Trophy,
   User,
   Users,
@@ -11,20 +10,14 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type StepBadge =
-  | { type: "stars"; label: string }
-  | { type: "pricing"; create: number; join: number }
-  | { type: "rewards"; label: string };
-
 export type HowItWorksStep = {
   id: string;
   step: string;
+  emoji: string;
   title: string;
   description: string;
-  iconBg: string;
-  iconColor: string;
+  tag: string;
   Icon: LucideIcon;
-  badge?: StepBadge;
 };
 
 export type HowItWorksFeature = {
@@ -40,41 +33,38 @@ export const howItWorksSteps: HowItWorksStep[] = [
   {
     id: "create-account",
     step: "01",
-    title: "Create Account",
-    description: "Sign up in seconds and get 30 free stars instantly.",
-    iconBg: "bg-bb-primary/10",
-    iconColor: "text-bb-primary",
+    emoji: "👤",
+    title: "Create an account",
+    description: "Sign up in seconds and get 30 stars dropped straight into your wallet.",
+    tag: "+30 Stars",
     Icon: User,
-    badge: { type: "stars", label: "+30 Stars" },
   },
   {
     id: "create-join-room",
     step: "02",
-    title: "Create or Join Room",
-    description: "Create a room for 10 stars or join any live room for just 5 stars.",
-    iconBg: "bg-bb-gold/15",
-    iconColor: "text-bb-gold",
-    Icon: Star,
-    badge: { type: "pricing", create: 10, join: 5 },
+    emoji: "🎟️",
+    title: "Create or join a room",
+    description: "Host your own party for 10 stars, or slide into a live room for 5.",
+    tag: "10★ / 5★",
+    Icon: Ticket,
   },
   {
     id: "listen-mark",
     step: "03",
-    title: "Listen & Mark",
-    description: "Songs are played live. Listen carefully and mark them on your Bingo card.",
-    iconBg: "bg-bb-primary/10",
-    iconColor: "text-bb-primary",
+    emoji: "🎵",
+    title: "Listen & mark",
+    description: "Songs play live. Catch the track, mark it on your card, stay sharp.",
+    tag: "Live Caller",
     Icon: Music2,
   },
   {
     id: "win-bingo",
     step: "04",
-    title: "Win Bingo",
-    description: "Complete a row or pattern before others and win exciting rewards.",
-    iconBg: "bg-bb-gold/15",
-    iconColor: "text-bb-gold",
+    emoji: "🏆",
+    title: "Call Bingo",
+    description: "Complete your pattern first and the stars — plus bragging rights — are yours.",
+    tag: "Win Rewards",
     Icon: Trophy,
-    badge: { type: "rewards", label: "Win Rewards" },
   },
 ];
 

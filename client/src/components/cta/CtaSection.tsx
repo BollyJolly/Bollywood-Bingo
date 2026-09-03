@@ -19,7 +19,7 @@ export function CtaSection({ onCreateRoom }: CtaSectionProps) {
       data-testid="section-cta"
     >
       <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(255,77,126,0.05),transparent)]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(200,29,74,0.06),transparent)]"
         aria-hidden="true"
       />
 

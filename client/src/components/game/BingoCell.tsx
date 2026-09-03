@@ -44,7 +44,7 @@ export function BingoCell({
         !isFree &&
           !cell.marked &&
           isCalled &&
-          "cursor-pointer border-2 border-bb-primary bg-bb-primary/10 text-bb-primary shadow-[0_0_0_2px_rgba(255,77,126,0.15)] hover:border-bb-primary hover:shadow-md",
+          "cursor-pointer border-2 border-bb-primary bg-bb-primary/10 text-bb-primary shadow-[0_0_0_2px_rgba(200,29,74,0.15)] hover:border-bb-primary hover:shadow-md",
         !isFree && cell.marked && "cursor-pointer bg-bb-primary text-white shadow-md",
         isCurrent && !cell.marked && "animate-pulse",
         isWinning && "ring-2 ring-bb-success ring-offset-1",

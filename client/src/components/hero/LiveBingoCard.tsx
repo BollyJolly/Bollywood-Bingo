@@ -3,6 +3,8 @@ import { Users } from "lucide-react";
 
 export type LiveBingoCardProps = {
   roomTitle?: string;
+  theme?: string;
+  hostName?: string;
   playerCount?: number;
   maxPlayers?: number;
   currentNumber?: number;
@@ -21,114 +23,85 @@ const MINI_GRID = [
 const CALLED_NUMBERS = new Set([4, 9, 16, 22, 31, 39, 44, 58, 63, 77]);
 
 export function LiveBingoCard({
-  roomTitle = "Diwali Night",
-  playerCount = 48,
-  maxPlayers = 120,
-  currentNumber = 77,
-  recentNumbers = DEFAULT_RECENT,
-  callerLine = "Double seven, Diwali heaven.",
+  roomTitle = "Mehendi Ki Raat",
+  theme = "Sangeet Night",
+  hostName = "Ritu",
+  playerCount = 24,
+  maxPlayers = 40,
+  currentNumber = 24,
 }: LiveBingoCardProps) {
-  const fillPercent = Math.min(100, Math.round((playerCount / maxPlayers) * 100));
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 32 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
-      className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none"
+      className="relative mx-auto w-full max-w-lg lg:mx-0"
     >
       <div
-        className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-[radial-gradient(circle,rgba(255,77,126,0.08)_0%,transparent_70%)] blur-2xl"
+        className="pointer-events-none absolute -inset-6 rounded-[2.5rem] bg-[radial-gradient(circle,rgba(200,29,74,0.15)_0%,transparent_70%)] blur-2xl"
         aria-hidden="true"
       />
 
-      <div className="animate-hero-float relative">
-        <div className="relative overflow-hidden rounded-[20px] border border-bb-border bg-bb-elevated p-5 shadow-[0_1px_3px_rgba(0,0,0,0.05),0_8px_32px_rgba(0,0,0,0.06)] sm:p-6">
-          <div className="flex items-center justify-between gap-3">
-            <div className="inline-flex items-center gap-2 rounded-full border border-bb-primary/20 bg-bb-primary/5 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-bb-primary">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-bb-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-bb-primary" />
-              </span>
-              Live Now
-            </div>
-            <div className="flex items-center gap-1.5 text-xs text-bb-muted">
-              <Users className="h-3.5 w-3.5 text-bb-primary" />
-              {playerCount}/{maxPlayers}
-            </div>
-          </div>
+      <div className="animate-hero-float relative flex items-stretch rounded-3xl shadow-2xl">
+        {/* Top & Bottom Circular Perforation Notches */}
+        <span className="absolute -top-3.5 right-[84px] z-20 h-7 w-7 rounded-full bg-[#1B1330] sm:right-[100px]" aria-hidden="true" />
+        <span className="absolute -bottom-3.5 right-[84px] z-20 h-7 w-7 rounded-full bg-[#1B1330] sm:right-[100px]" aria-hidden="true" />
 
-          <div className="mt-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Room</p>
-            <p className="mt-1 text-xl font-black text-bb-text">{roomTitle}</p>
-          </div>
+        {/* Main White Ticket Card Body */}
+        <div className="relative z-10 flex-1 rounded-l-3xl bg-[#FFFDF9] p-6 text-[#1B1330] sm:p-7">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#C81D4A]">
+            ROOM · LIVE
+          </span>
 
-          <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-bb-surface">
-            <div
-              className="h-full rounded-full bg-bb-primary transition-all duration-500"
-              style={{ width: `${fillPercent}%` }}
-            />
-          </div>
-
-          <div className="mt-6 grid grid-cols-[1fr_auto] items-center gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Current Number</p>
-              <p className="mt-2 text-sm text-bb-gold">Players seated · {playerCount}</p>
-            </div>
-            <div
-              className="flex h-24 w-24 animate-hero-pulse-number items-center justify-center rounded-[18px] bg-bb-primary text-4xl font-black text-white shadow-[0_4px_20px_rgba(255,77,126,0.25)]"
-              data-testid="hero-last-call"
-            >
-              {currentNumber}
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-bb-muted">Last 5 Numbers</p>
-            <div className="grid grid-cols-5 gap-2">
-              {recentNumbers.slice(0, 5).map((number, index) => (
-                <span
-                  key={`hero-${number}-${index}`}
-                  className={`rounded-xl py-2 text-center text-sm font-bold ${
-                    index === 0
-                      ? "border border-bb-primary/25 bg-bb-primary/5 text-bb-primary"
-                      : "border border-bb-border bg-bb-surface text-bb-muted"
-                  }`}
-                >
-                  {number}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-5 overflow-hidden rounded-2xl border border-bb-border bg-bb-surface p-3">
-            <div className="grid grid-cols-9 gap-1">
-              {MINI_GRID.flat().map((cell, index) => {
-                const isCalled = cell !== null && CALLED_NUMBERS.has(cell);
-                const isCurrent = cell === currentNumber;
-                return (
-                  <span
-                    key={`cell-${index}`}
-                    className={`flex aspect-square items-center justify-center rounded-md text-[9px] font-bold sm:text-[10px] ${
-                      isCurrent
-                        ? "bg-bb-primary text-white shadow-sm"
-                        : isCalled
-                          ? "bg-bb-primary/10 text-bb-primary"
-                          : cell === null
-                            ? "bg-transparent"
-                            : "border border-bb-border bg-bb-elevated text-bb-muted"
-                    }`}
-                  >
-                    {cell ?? ""}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-
-          <p className="mt-5 rounded-2xl border border-bb-gold/25 bg-bb-gold/5 px-4 py-3 text-center text-sm font-semibold italic text-bb-text">
-            &ldquo;{callerLine}&rdquo;
+          <h2 className="mt-1 font-serif text-2xl font-bold leading-tight text-[#1B1330] sm:text-3xl">
+            {roomTitle}
+          </h2>
+          <p className="mt-0.5 text-xs font-medium text-[#1B1330]/60">
+            {theme} · Host {hostName}
           </p>
+
+          <div className="mt-4 flex items-baseline gap-2">
+            <span className="font-serif text-5xl font-black text-[#1B1330] tabular-nums sm:text-6xl">
+              {playerCount}
+            </span>
+            <span className="text-sm font-bold text-[#1B1330]/50">/{maxPlayers} seated</span>
+          </div>
+
+          <div className="mt-6 space-y-2.5">
+            <div className="flex items-center justify-between rounded-xl border border-[#F3E5D4] bg-[#FDF6ED] px-4 py-2.5 text-xs font-semibold">
+              <span className="flex items-center gap-2 text-[#1B1330]">
+                <span>🎵</span> Now playing
+              </span>
+              <span className="font-bold text-[#E8A93B]">Tip Tip Barsa</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl border border-[#F3E5D4] bg-[#FDF6ED] px-4 py-2.5 text-xs font-semibold">
+              <span className="flex items-center gap-2 text-[#1B1330]">
+                <span>🎟</span> Entry
+              </span>
+              <span className="font-bold text-[#E8A93B]">5★</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl border border-[#F3E5D4] bg-[#FDF6ED] px-4 py-2.5 text-xs font-semibold">
+              <span className="flex items-center gap-2 text-[#1B1330]">
+                <span>⏱</span> Next call
+              </span>
+              <span className="font-bold text-[#E8A93B]">0:14</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Vertical Dotted Perforation Line */}
+        <div className="relative z-10 w-0 border-r-2 border-dashed border-[#EADBCC]" />
+
+        {/* Right Red Ticket Stub */}
+        <div className="relative z-10 flex w-24 flex-col items-center justify-between bg-[#C81D4A] px-2 py-6 text-white rounded-r-3xl sm:w-28">
+          <span className="text-[11px] font-mono font-bold tracking-[0.25em] text-white/90 uppercase [writing-mode:vertical-lr] rotate-180">
+            ROOM 01
+          </span>
+          <span className="font-serif text-3xl font-black text-[#E8A93B] sm:text-4xl">
+            {playerCount}
+          </span>
         </div>
       </div>
     </motion.div>

@@ -58,9 +58,19 @@ export function HeroSection({ liveCard }: HeroSectionProps) {
   return (
     <section
       id="hero"
-      className="relative bg-bb-bg text-bb-text"
+      className="relative bg-[#1B1330] text-white"
       data-testid="section-hero"
     >
+      {/* Decorative Golden Bulb Dots Line with spacing below Navbar bottom border */}
+      <div className="absolute top-0.8 left-0 right-0 z-20 flex w-full items-center justify-between overflow-hidden px-4 pointer-events-none" aria-hidden="true">
+        {Array.from({ length: 26 }).map((_, i) => (
+          <span
+            key={i}
+            className="animate-bulb-twinkle h-1.5 w-1.5 shrink-0 rounded-full bg-[#E8A93B]"
+            style={{ animationDelay: `${(i % 6) * 0.35}s` }}
+          />
+        ))}
+      </div>
       <Swiper
         modules={[Pagination]}
         speed={700}

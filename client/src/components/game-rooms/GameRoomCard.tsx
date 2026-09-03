@@ -14,23 +14,23 @@ type GameRoomCardProps = {
 const STATUS_STYLES: Record<string, { label: string; className: string }> = {
   live: {
     label: "LIVE",
-    className: "bg-[#10B981] text-white",
+    className: "bg-[#0B6E64] text-white",
   },
   playing: {
     label: "LIVE",
-    className: "bg-[#10B981] text-white",
+    className: "bg-[#0B6E64] text-white",
   },
   waiting: {
     label: "WAITING",
-    className: "bg-[#F59E0B] text-white",
+    className: "bg-[#E8A93B] text-white",
   },
   full: {
     label: "FULL",
-    className: "bg-[#EF4444] text-white",
+    className: "bg-[#C81D4A] text-white",
   },
   finished: {
     label: "FINISHED",
-    className: "bg-[#6B7280] text-white",
+    className: "bg-[#6E627C] text-white",
   },
 };
 

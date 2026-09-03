@@ -51,8 +51,8 @@ export function BingoBoard() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-1 text-xs font-bold text-amber-500">
-            <Star className="h-3.5 w-3.5 fill-amber-400" />
+          <div className="flex items-center gap-1 rounded-full border border-bb-gold/30 bg-bb-gold/10 px-2.5 py-1 text-xs font-bold text-bb-gold">
+            <Star className="h-3.5 w-3.5 fill-bb-gold" />
             <span>{stars} ⭐</span>
           </div>
 
@@ -172,7 +172,7 @@ export function BingoBoard() {
         <button
           type="button"
           onClick={handleClaimCheck}
-          className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-500 to-bb-primary px-6 py-2.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+          className="flex items-center gap-2 rounded-full bg-gradient-to-r from-[#E8A93B] to-[#C81D4A] px-6 py-2.5 text-xs font-bold text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
         >
           <CheckCircle className="h-4 w-4" />
           Check & Claim Bingo Win

@@ -10,9 +10,9 @@ const PLAYLISTS = [
 ];
 
 const CHAT_MESSAGES = [
-  { user: "Asha", color: "#E8B931", text: "Ready for number 77! 🎉" },
-  { user: "Meera", color: "#FF4D7E", text: "Almost got a full house!" },
-  { user: "Ritu", color: "#6B7280", text: "This room is so fun 🔥" },
+  { user: "Asha", color: "#E8A93B", text: "Ready for number 77! 🎉" },
+  { user: "Meera", color: "#C81D4A", text: "Almost got a full house!" },
+  { user: "Ritu", color: "#0B6E64", text: "This room is so fun 🔥" },
 ];
 
 function HeroPlaylistVisual({ isActive }: { isActive: boolean }) {

@@ -53,14 +53,14 @@ export function Navbar({ onCreateRoom = () => {} }: NavbarProps) {
   return (
     <>
       <header
-        className="sticky top-0 z-50 border-b border-bb-border bg-bb-elevated/95 backdrop-blur-md"
+        className="sticky top-0 z-50 border-b border-[#E8A93B]/20 bg-[#1B1330] text-white backdrop-blur-md"
         data-testid="navbar"
       >
-        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-6 px-4 sm:px-6 lg:px-8 sm:h-20">
           <NavbarLogo />
 
           <nav
-            className="hidden flex-1 items-center justify-center gap-0.5 lg:flex"
+            className="hidden flex-1 items-center justify-center gap-1 lg:flex"
             aria-label="Main navigation"
           >
             {navLinks.map((link) => (
@@ -74,8 +74,8 @@ export function Navbar({ onCreateRoom = () => {} }: NavbarProps) {
             ))}
           </nav>
 
-          <div className="flex shrink-0 items-center gap-2">
-              <NavbarActions
+          <div className="flex shrink-0 items-center gap-3">
+            <NavbarActions
               onCreateRoom={onCreateRoom}
               onWalletClick={() => scrollTo("star-wallet")}
               onAuthClick={goToAuth}
@@ -89,7 +89,7 @@ export function Navbar({ onCreateRoom = () => {} }: NavbarProps) {
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               data-testid="navbar-menu-toggle"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-bb-border text-bb-muted transition-colors hover:bg-bb-surface hover:text-bb-text lg:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:bg-white/10 lg:hidden"
             >
               <Menu className="h-5 w-5" />
             </button>

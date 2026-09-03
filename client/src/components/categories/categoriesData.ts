@@ -19,41 +19,61 @@ export type Category = {
   name: string;
   songCount: string;
   badge: string;
+  filterTag: string;
+  gradient: string;
   Icon: LucideIcon;
 };
 
 export const categories: Category[] = [
   {
-    id: "diwali-hits",
-    emoji: "🪔",
-    name: "Diwali Hits",
+    id: "bollywood-classics",
+    emoji: "🎵",
+    name: "Bollywood Classics",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Bollywood",
+    gradient: "from-[#8C1B3E] via-[#A81B43] to-[#C81D4A]",
+    Icon: Clapperboard,
+  },
+  {
+    id: "diwali-dhamaka",
+    emoji: "🎵",
+    name: "Diwali Dhamaka",
+    songCount: "60 Songs",
+    badge: "Playlist Ready",
+    filterTag: "Diwali",
+    gradient: "from-[#C58823] via-[#D7992A] to-[#E8A93B]",
     Icon: Flame,
+  },
+  {
+    id: "punjabi-beats",
+    emoji: "🎵",
+    name: "Punjabi Beats",
+    songCount: "50 Songs",
+    badge: "Playlist Ready",
+    filterTag: "Punjabi",
+    gradient: "from-[#47306D] via-[#593B8A] to-[#6A479F]",
+    Icon: Drum,
+  },
+  {
+    id: "ladies-club-specials",
+    emoji: "🎵",
+    name: "Ladies Club Specials",
+    songCount: "45 Songs",
+    badge: "Playlist Ready",
+    filterTag: "Ladies Club",
+    gradient: "from-[#06584F] via-[#086359] to-[#0B6E64]",
+    Icon: Crown,
   },
   {
     id: "sangeet-songs",
     emoji: "🎵",
-    name: "Sangeet Songs",
+    name: "Sangeet Specials",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Sangeet",
+    gradient: "from-[#9E1B40] via-[#BA5826] to-[#E8A93B]",
     Icon: Music2,
-  },
-  {
-    id: "ladies-club",
-    emoji: "👑",
-    name: "Ladies Club",
-    songCount: "75 Songs",
-    badge: "Playlist Ready",
-    Icon: Crown,
-  },
-  {
-    id: "bollywood-classics",
-    emoji: "🎬",
-    name: "Bollywood Classics",
-    songCount: "75 Songs",
-    badge: "Playlist Ready",
-    Icon: Clapperboard,
   },
   {
     id: "dance-masala",
@@ -61,15 +81,9 @@ export const categories: Category[] = [
     name: "Dance Masala",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Bollywood",
+    gradient: "from-[#8C1B3E] via-[#A81B43] to-[#C81D4A]",
     Icon: PartyPopper,
-  },
-  {
-    id: "punjabi-tadka",
-    emoji: "🥁",
-    name: "Punjabi Tadka",
-    songCount: "75 Songs",
-    badge: "Playlist Ready",
-    Icon: Drum,
   },
 ];
 
@@ -80,6 +94,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Romantic Hits",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Bollywood",
+    gradient: "from-[#8C1B3E] to-[#C81D4A]",
     Icon: Heart,
   },
   {
@@ -88,6 +104,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Garba Night",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Diwali",
+    gradient: "from-[#C58823] to-[#E8A93B]",
     Icon: Sparkles,
   },
   {
@@ -96,6 +114,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Kitty Party",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Ladies Club",
+    gradient: "from-[#06584F] to-[#0B6E64]",
     Icon: Crown,
   },
   {
@@ -104,6 +124,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Holi Colors",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Diwali",
+    gradient: "from-[#C58823] to-[#E8A93B]",
     Icon: Palette,
   },
   {
@@ -112,6 +134,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Retro 90s",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Bollywood",
+    gradient: "from-[#47306D] to-[#6A479F]",
     Icon: Disc3,
   },
   {
@@ -120,6 +144,8 @@ export const categoriesRowTwo: Category[] = [
     name: "Wedding Antakshari",
     songCount: "75 Songs",
     badge: "Playlist Ready",
+    filterTag: "Sangeet",
+    gradient: "from-[#9E1B40] to-[#E8A93B]",
     Icon: Mic2,
   },
 ];

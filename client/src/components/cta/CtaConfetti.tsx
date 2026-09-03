@@ -1,4 +1,4 @@
-const COLORS = ["#FF4D7E", "#E8B931", "#FF4D7E", "#22C55E"];
+const COLORS = ["#C81D4A", "#E8A93B", "#C81D4A", "#0B6E64"];
 
 const CONFETTI = Array.from({ length: 16 }, (_, index) => ({
   id: index,

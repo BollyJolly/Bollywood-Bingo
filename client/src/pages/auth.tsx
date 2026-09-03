@@ -10,14 +10,16 @@ import { useAuth } from "@/global/authContext";
 
 type AuthMode = "login" | "register";
 
+import { BollyBingoLogoIcon } from "@/components/common/BollyBingoLogoIcon";
+
 function AuthFeature({ title, description }: { title: string; description: string }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
-      <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#FF2D75]/15 text-[#FF2D75]">
+      <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-[#C81D4A]/15 text-[#C81D4A]">
         <Sparkles className="h-4 w-4" />
       </div>
       <h3 className="text-sm font-semibold text-white">{title}</h3>
-      <p className="mt-1 text-sm leading-6 text-[#B9B9C5]">{description}</p>
+      <p className="mt-1 text-sm leading-6 text-[#C9C3D7]">{description}</p>
     </div>
   );
 }
@@ -108,7 +110,7 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(255,45,117,0.20),_transparent_32%),radial-gradient(circle_at_top_right,_rgba(139,92,246,0.22),_transparent_28%),linear-gradient(135deg,_#12081f_0%,_#1f0d33_42%,_#3a1238_100%)] px-4 py-6 text-white sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(200,29,74,0.22),_transparent_36%),radial-gradient(circle_at_top_right,_rgba(11,110,100,0.20),_transparent_32%),linear-gradient(135deg,_#110820_0%,_#1B1330_50%,_#2A173B_100%)] px-4 py-6 text-white sm:px-6 lg:px-8">
       <div className="mx-auto flex min-h-[calc(100vh-3rem)] w-full max-w-6xl items-center">
         <div className="grid w-full gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <motion.section
@@ -129,8 +131,8 @@ export default function Auth() {
             </Button>
 
             <div className="max-w-2xl">
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#FF2D75]/25 bg-[#FF2D75]/10 px-4 py-2 text-sm font-medium text-[#FF9BC0]">
-                <Lock className="h-4 w-4" />
+              <div className="mb-4 inline-flex items-center gap-2.5 rounded-full border border-[#C81D4A]/30 bg-[#C81D4A]/15 px-4 py-2 text-sm font-medium text-[#E8A93B]">
+                <BollyBingoLogoIcon className="h-6 w-6" />
                 Secure access for players and hosts
               </div>
 
@@ -167,12 +169,12 @@ export default function Auth() {
             transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 }}
             className="flex items-center justify-center"
           >
-            <Card className="w-full max-w-xl border-white/10 bg-[rgba(17,9,28,0.92)] text-white shadow-2xl shadow-black/30 backdrop-blur-xl">
+            <Card className="w-full max-w-xl border-white/10 bg-[#1B1330]/90 text-white shadow-2xl shadow-black/40 backdrop-blur-xl">
               <CardHeader className="space-y-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <CardTitle className="text-2xl text-white">{isLogin ? "Login" : "Register"}</CardTitle>
-                    <CardDescription className="mt-1 text-[#B9B9C5]">
+                    <CardDescription className="mt-1 text-[#C9C3D7]">
                       {isLogin
                         ? "Use your email and password to enter your account."
                         : "Fill in your details to create a new account."}
@@ -188,8 +190,8 @@ export default function Auth() {
                       className={[
                         "rounded-full px-6 py-2.5 text-sm font-medium transition-all",
                         isLogin
-                          ? "bg-[#FF2D75] text-white shadow-md hover:bg-[#E91E63]"
-                          : "bg-transparent text-[#B9B9C5] hover:bg-white/5 hover:text-white",
+                          ? "bg-[#C81D4A] text-white shadow-md hover:bg-[#A6153B]"
+                          : "bg-transparent text-[#C9C3D7] hover:bg-white/5 hover:text-white",
                       ].join(" ")}
                     >
                       Login
@@ -202,8 +204,8 @@ export default function Auth() {
                       className={[
                         "rounded-full px-6 py-2.5 text-sm font-medium transition-all",
                         !isLogin
-                          ? "bg-[#FF2D75] text-white shadow-md hover:bg-[#E91E63]"
-                          : "bg-transparent text-[#B9B9C5] hover:bg-white/5 hover:text-white",
+                          ? "bg-[#C81D4A] text-white shadow-md hover:bg-[#A6153B]"
+                          : "bg-transparent text-[#C9C3D7] hover:bg-white/5 hover:text-white",
                       ].join(" ")}
                     >
                       Register
@@ -221,7 +223,7 @@ export default function Auth() {
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-[#D8D2E6]">Full name</label>
                       <div className="relative">
-                        <UserRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#FF9BC0]" />
+                        <UserRound className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#C81D4A]" />
                         <Input
                           placeholder="Enter your name"
                           className="h-12 border-white/10 bg-white/5 pl-10 text-white placeholder:text-[#8F879E]"
@@ -235,7 +237,7 @@ export default function Auth() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-[#D8D2E6]">Email</label>
                     <div className="relative">
-                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#FF9BC0]" />
+                      <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#C81D4A]" />
                       <Input
                         type="email"
                         placeholder="name@example.com"
@@ -249,7 +251,7 @@ export default function Auth() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-[#D8D2E6]">Password</label>
                     <div className="relative">
-                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#FF9BC0]" />
+                      <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#C81D4A]" />
                       <Input
                         type="password"
                         placeholder="••••••••"
@@ -260,14 +262,14 @@ export default function Auth() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-between gap-3 text-sm text-[#B9B9C5]">
+                  <div className="flex items-center justify-between gap-3 text-sm text-[#C9C3D7]">
                     <label className="flex items-center gap-2">
-                      <input type="checkbox" className="h-4 w-4 rounded border-white/20 bg-white/5 text-[#FF2D75]" />
+                      <input type="checkbox" className="h-4 w-4 rounded border-white/20 bg-white/5 text-[#C81D4A]" />
                       Remember me
                     </label>
 
                     {isLogin ? (
-                      <button type="button" className="font-medium text-[#FF9BC0] hover:text-[#FF2D75]">
+                      <button type="button" className="font-medium text-[#E8A93B] hover:text-[#C81D4A]">
                         Forgot password?
                       </button>
                     ) : (
@@ -282,7 +284,7 @@ export default function Auth() {
                   ) : null}
 
                   {message ? (
-                    <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-200">
+                    <p className="rounded-xl border border-[#0B6E64]/30 bg-[#0B6E64]/15 px-4 py-3 text-sm text-[#4ade80]">
                       {message}
                     </p>
                   ) : null}
@@ -290,7 +292,7 @@ export default function Auth() {
                   <Button
                     type="submit"
                     disabled={isSubmitting}
-                    className="h-12 w-full bg-[#FF2D75] text-base font-bold text-white hover:bg-[#E91E63]"
+                    className="h-12 w-full bg-[#C81D4A] text-base font-bold text-white hover:bg-[#A6153B]"
                   >
                     {isSubmitting ? "Please wait..." : isLogin ? "Login now" : "Create account"}
                   </Button>

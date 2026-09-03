@@ -1,126 +1,123 @@
-import { useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getPlaylists, type PlaylistApi } from "@/global/playlistsApi";
-import {
-  Clapperboard,
-  Crown,
-  Flame,
-  Heart,
-  Music2,
-  PartyPopper,
-  Drum,
-  Sparkles,
-  Mic2,
-  Palette,
-  Disc3,
-  ChevronRight,
-  type LucideIcon,
-} from "lucide-react";
-import { CategoriesBackground } from "./CategoriesBackground";
-import { CategoryRow } from "./CategoryRow";
-import { categories as defaultCategories, categoriesRowTwo as defaultCategoriesRowTwo, type Category } from "./categoriesData";
+import { getPlaylists } from "@/global/playlistsApi";
+import { CategoryCard } from "./CategoryCard";
+import { categories as defaultCategories, categoriesRowTwo as defaultCategoriesRowTwo } from "./categoriesData";
 
-const iconMap: Record<string, LucideIcon> = {
-  "diwali-hits": Flame,
-  "sangeet-songs": Music2,
-  "ladies-club": Crown,
-  "bollywood-classics": Clapperboard,
-  "dance-masala": PartyPopper,
-  "punjabi-tadka": Drum,
-  "romantic-hits": Heart,
-  "garba-night": Sparkles,
-  "kitty-party": Crown,
-  "holi-colors": Palette,
-  "retro-90s": Disc3,
-  "wedding-antakshari": Mic2,
-};
-
-function mapPlaylistToCategory(item: PlaylistApi): Category {
-  return {
-    id: item.id,
-    emoji: item.emoji ?? "🎵",
-    name: item.name,
-    songCount: item.songCount ?? "75 Songs",
-    badge: item.badge ?? "Playlist Ready",
-    Icon: iconMap[item.id] ?? Music2,
-  };
-}
+const FILTER_TABS = ["All Playlists", "Diwali", "Sangeet", "Bollywood", "Punjabi", "Ladies Club"];
 
 export function CategoriesSection() {
+  const [activeFilter, setActiveFilter] = useState("All Playlists");
+
   const { data: fetchedPlaylists } = useQuery({
     queryKey: ["playlists"],
     queryFn: getPlaylists,
   });
 
-  const categories = useMemo(() => {
+  const allCategories = useMemo(() => {
+    const fallbackCombined = [...defaultCategories, ...defaultCategoriesRowTwo];
     if (!fetchedPlaylists || !fetchedPlaylists.length) {
-      return defaultCategories;
+      return fallbackCombined;
     }
-    const mapped = fetchedPlaylists.map(mapPlaylistToCategory);
-    return mapped.slice(0, Math.ceil(mapped.length / 2));
+
+    return fetchedPlaylists.map((p, index) => {
+      const match = fallbackCombined.find(
+        (c) =>
+          c.id.toLowerCase() === (p.id || "").toLowerCase() ||
+          c.name.toLowerCase() === (p.name || (p as any).title || "").toLowerCase()
+      ) || fallbackCombined[index % fallbackCombined.length];
+
+      let formattedSongCount = match.songCount;
+      if (p.songCount !== undefined && p.songCount !== null) {
+        formattedSongCount = typeof p.songCount === "number" ? `${p.songCount} Songs` : String(p.songCount);
+      } else if (Array.isArray((p as any).songs)) {
+        formattedSongCount = `${(p as any).songs.length} Songs`;
+      }
+
+      return {
+        id: p.id || match.id,
+        emoji: p.emoji || match.emoji || "🎵",
+        name: p.name || (p as any).title || match.name,
+        songCount: formattedSongCount,
+        badge: p.badge || match.badge || "Playlist Ready",
+        filterTag: (p as any).filterTag || match.filterTag || "Bollywood",
+        gradient: (p as any).gradient || match.gradient,
+        Icon: (p as any).Icon || match.Icon,
+      };
+    });
   }, [fetchedPlaylists]);
 
-  const categoriesRowTwo = useMemo(() => {
-    if (!fetchedPlaylists || !fetchedPlaylists.length) {
-      return defaultCategoriesRowTwo;
+  const filteredCategories = useMemo(() => {
+    if (activeFilter === "All Playlists") {
+      return allCategories;
     }
-    const mapped = fetchedPlaylists.map(mapPlaylistToCategory);
-    return mapped.slice(Math.ceil(mapped.length / 2));
-  }, [fetchedPlaylists]);
+    return allCategories.filter(
+      (cat) =>
+        cat.filterTag?.toLowerCase() === activeFilter.toLowerCase() ||
+        cat.name.toLowerCase().includes(activeFilter.toLowerCase()),
+    );
+  }, [allCategories, activeFilter]);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   const onViewPlaylist = () => scrollTo("live-rooms");
-  const onPlayBingo = () => scrollTo("live-rooms");
 
   return (
     <section
       id="categories"
-      className="relative overflow-hidden bg-bb-bg px-5 pb-16 pt-20 sm:px-8 lg:px-12 lg:pb-20 lg:pt-24"
+      className="relative overflow-hidden bg-[#FBF3E7] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24 text-[#1B1330]"
       data-testid="section-categories"
     >
-      <CategoriesBackground />
+      <div className="relative mx-auto max-w-[1350px]">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-[#C81D4A]">
+            SONG PLAYLISTS
+          </span>
 
-      <div className="relative mx-auto max-w-[1440px]">
-        <div className="mb-12 text-center">
-          <div className="inline-flex items-center justify-center gap-2">
-            <h2 className="text-3xl font-bold tracking-tight text-bb-text sm:text-4xl">
-              Choose Your Vibe
-            </h2>
-            <Sparkles className="h-5 w-5 fill-bb-primary text-bb-primary" />
-          </div>
-          <p className="mx-auto mt-3 max-w-lg text-base text-bb-muted">
-            Pick your favorite theme and{" "}
-            <span className="font-semibold text-bb-primary">start playing</span> in seconds.
+          <h2 className="mt-2 font-serif text-3xl font-extrabold text-[#1B1330] sm:text-4xl lg:text-5xl">
+            Pick a playlist, press play
+          </h2>
+
+          <p className="mt-3 text-sm text-[#1B1330]/70 leading-relaxed max-w-lg mx-auto">
+            Every playlist is a ready-made Bingo card generator — choose your vibe and jump straight into a room.
           </p>
         </div>
 
-        <div className="space-y-5">
-          <CategoryRow
-            categories={categories}
-            onViewPlaylist={onViewPlaylist}
-            onPlayBingo={onPlayBingo}
-          />
-          <CategoryRow
-            categories={categoriesRowTwo}
-            rowOffset={categories.length}
-            onViewPlaylist={onViewPlaylist}
-            onPlayBingo={onPlayBingo}
-          />
+        {/* Filter Pills Row */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {FILTER_TABS.map((tab) => {
+            const isActive = activeFilter === tab;
+            return (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveFilter(tab)}
+                data-testid={`filter-tab-${tab.toLowerCase().replace(/\s/g, "-")}`}
+                className={
+                  isActive
+                    ? "rounded-full bg-[#1B1330] px-5 py-2 text-xs font-bold text-white shadow-sm transition-all"
+                    : "rounded-full border border-[#EADBCC] bg-white px-5 py-2 text-xs font-semibold text-[#1B1330] transition-colors hover:bg-white/80"
+                }
+              >
+                {tab}
+              </button>
+            );
+          })}
         </div>
 
-        <div className="mt-12 flex justify-center">
-          <button
-            type="button"
-            onClick={() => scrollTo("live-rooms")}
-            data-testid="button-explore-all-categories"
-            className="inline-flex items-center gap-1 rounded-full border border-bb-border bg-bb-elevated px-6 py-2.5 text-sm font-semibold text-bb-primary shadow-sm transition-all hover:border-bb-primary/30 hover:shadow-md"
-          >
-            Explore All Categories
-            <ChevronRight className="h-4 w-4" />
-          </button>
+        {/* Playlist Cards Grid */}
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {filteredCategories.map((category, index) => (
+            <CategoryCard
+              key={category.id}
+              category={category}
+              index={index}
+              onViewPlaylist={onViewPlaylist}
+            />
+          ))}
         </div>
       </div>
     </section>

@@ -123,12 +123,12 @@ export function MobileMenu({
               </div>
             </nav>
 
-            <div className="border-t border-white/10 p-5 space-y-3">
+            <div className="border-t border-bb-border p-5 space-y-3">
               {isLoggedIn ? (
                 <div className="space-y-2">
-                  <div className="flex w-full items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm font-semibold text-white">
+                  <div className="flex w-full items-center gap-3 rounded-xl border border-bb-border bg-bb-surface px-3 py-3 text-sm font-semibold text-bb-text">
                     <Avatar className="h-9 w-9">
-                      <AvatarFallback className="bg-gradient-to-br from-[#8B5CF6] to-[#FF2D75] text-xs font-bold text-white">
+                      <AvatarFallback className="bg-gradient-to-br from-[#C81D4A] to-[#1B1330] text-xs font-bold text-white">
                         {getInitials(userName)}
                       </AvatarFallback>
                     </Avatar>
@@ -146,7 +146,7 @@ export function MobileMenu({
                     type="button"
                     onClick={() => { onLogout(); onClose(); }}
                     data-testid="mobile-nav-logout"
-                    className="w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2.5 text-left text-[13px] font-medium text-white hover:bg-white/10"
+                    className="w-full rounded-lg border border-bb-border bg-bb-elevated px-3 py-2.5 text-left text-[13px] font-medium text-bb-text hover:bg-bb-surface"
                   >
                     Logout
                   </button>
@@ -156,7 +156,7 @@ export function MobileMenu({
                   type="button"
                   onClick={() => { onAuthClick(); onClose(); }}
                   data-testid="mobile-nav-auth"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-3 text-sm font-semibold text-gray-900 hover:border-gray-300 hover:bg-gray-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-bb-border bg-bb-elevated py-3 text-sm font-semibold text-bb-text hover:border-bb-primary/40 hover:bg-bb-surface"
                 >
                   Login / Register
                 </button>

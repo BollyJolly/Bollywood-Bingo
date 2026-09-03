@@ -20,4 +20,4 @@ export const socialLinks = [
 ] as const;
 
 export const footerTagline =
-  "Live Bollywood Bingo for Diwali, Sangeet and kitty parties worldwide.";
+  "Live Bollywood Bingo for Diwali, Sangeet and kitty parties worldwide. Real songs, real rooms, real stars.";
